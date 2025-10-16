@@ -12,7 +12,11 @@ typedef struct SD_CARD
 {
     SD_CARD_CONST const_h;
     HAL_SD_CardStateTypeDef state;
-    HAL_StatusTypeDef result;
+    HAL_StatusTypeDef hal_status;
+    FRESULT f_result;
+    FATFS fs;
+    FIL file;
+    UINT bw;
 } SD_CARD;
 
 extern SD_CARD sd_card;

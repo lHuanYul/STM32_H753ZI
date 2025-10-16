@@ -14,6 +14,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "cmsis_os.h"
+#include "fatfs.h"
 
 #include "stm32h753xx.h"
 #include "stm32h7xx_hal.h"

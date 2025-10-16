@@ -56,6 +56,13 @@ Core/Src/fdcan.o: ../Core/Src/fdcan.c ../Core/Inc/fdcan.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
+ ../FATFS/App/fatfs.h ../Middlewares/Third_Party/FatFs/src/ff.h \
+ ../Middlewares/Third_Party/FatFs/src/integer.h ../FATFS/Target/ffconf.h \
+ ../Core/Inc/main.h ../FATFS/Target/bsp_driver_sd.h \
+ ../FATFS/Target/fatfs_platform.h \
+ ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h \
+ ../Middlewares/Third_Party/FatFs/src/diskio.h \
+ ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/sd_diskio.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h
 ../Core/Inc/fdcan.h:
 ../Core/Inc/main.h:
@@ -117,4 +124,15 @@ Core/Src/fdcan.o: ../Core/Src/fdcan.c ../Core/Inc/fdcan.h \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
+../FATFS/App/fatfs.h:
+../Middlewares/Third_Party/FatFs/src/ff.h:
+../Middlewares/Third_Party/FatFs/src/integer.h:
+../FATFS/Target/ffconf.h:
+../Core/Inc/main.h:
+../FATFS/Target/bsp_driver_sd.h:
+../FATFS/Target/fatfs_platform.h:
+../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
+../Middlewares/Third_Party/FatFs/src/diskio.h:
+../Middlewares/Third_Party/FatFs/src/ff.h:
+../FATFS/Target/sd_diskio.h:
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h:
