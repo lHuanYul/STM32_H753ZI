@@ -65,7 +65,8 @@ Core/Src/connectivity/sdmmc/basic.o: \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/sd_diskio.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h \
- ../Core/Inc/main/fn_state.h ../Core/Inc/sdmmc.h ../Core/Inc/main.h
+ ../Core/Inc/main/fn_state.h ../Core/Inc/sdmmc.h ../Core/Inc/main.h \
+ ../Core/Inc/mdma.h
 ../Core/Inc/connectivity/sdmmc/basic.h:
 ../Core/Inc/main/config.h:
 ../Middlewares/ST/ARM/DSP/Inc/arm_math.h:
@@ -140,3 +141,4 @@ Core/Src/connectivity/sdmmc/basic.o: \
 ../Core/Inc/main/fn_state.h:
 ../Core/Inc/sdmmc.h:
 ../Core/Inc/main.h:
+../Core/Inc/mdma.h:

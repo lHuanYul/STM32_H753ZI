@@ -1,0 +1,14 @@
+/* Define output sections */
+SECTIONS
+{
+  /* D2 SRAM1 起點 0x30000000，確保這個MEMORY段存在 */
+  .dma_nc (NOLOAD) :
+  {
+    . = ALIGN(32);
+    *(.dma_nc)        /* 我們的 NC 緩衝會放這裡 */
+    . = ALIGN(32);
+  } >RAM_D2
+  
+  /* User_heap_stack section, used to check that there is enough RAM left */
+  ._user_heap_stack :
+}

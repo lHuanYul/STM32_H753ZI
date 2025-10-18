@@ -25,6 +25,8 @@
 
 // ! SYSTEM config, Change CAREFULLY --------------------
 #define STM32_DEVICE
+#define STM32_H753ZI
+#define PROJECT_MAIN
 
 #define FDCAN_STD_FILTER_NBR    2
 #define FDCAN_RX0_NBR           16
@@ -44,6 +46,6 @@
 #define FDCAN_TRSM_BUF_CAP      10
 #define FDCAN_RECV_BUF_CAP      10
 
-#define SDMMC_CLK_DIV           8
+#define SDMMC_CLK_DIV           10
 
 // ! SYSTEM config END ------------------------------

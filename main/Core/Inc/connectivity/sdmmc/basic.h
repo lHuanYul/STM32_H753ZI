@@ -6,6 +6,7 @@
 typedef struct SD_CARD_CONST
 {
     SD_HandleTypeDef *hsdx;
+    MDMA_HandleTypeDef *hmdma;
 } SD_CARD_CONST;
 
 typedef struct SD_CARD
@@ -16,7 +17,9 @@ typedef struct SD_CARD
     FRESULT f_result;
     FATFS fs;
     FIL file;
-    UINT bw;
+    UINT bits;
 } SD_CARD;
 
 extern SD_CARD sd_card;
+
+HAL_StatusTypeDef mdma_memcpy_align32(void *dst32, const void *src, size_t len);
