@@ -33,11 +33,13 @@
 
 /* USER CODE END 1 */
 MDMA_HandleTypeDef hmdma_mdma_channel0_sdmmc1_end_data_0;
+MDMA_LinkNodeTypeDef node_mdma_channel0_sw_1;
 
 /**
   * Enable MDMA controller clock
   * Configure MDMA for global transfers
   *   hmdma_mdma_channel0_sdmmc1_end_data_0
+  *   node_mdma_channel0_sw_1
   */
 void MX_MDMA_Init(void)
 {
@@ -45,6 +47,7 @@ void MX_MDMA_Init(void)
   /* MDMA controller clock enable */
   __HAL_RCC_MDMA_CLK_ENABLE();
   /* Local variables */
+  MDMA_LinkNodeConfTypeDef nodeConfig;
 
   /* Configure MDMA channel MDMA_Channel0 */
   /* Configure MDMA request hmdma_mdma_channel0_sdmmc1_end_data_0 on MDMA_Channel0 */
@@ -70,6 +73,41 @@ void MX_MDMA_Init(void)
 
   /* Configure post request address and data masks */
   if (HAL_MDMA_ConfigPostRequestMask(&hmdma_mdma_channel0_sdmmc1_end_data_0, 0, 0) != HAL_OK)
+  {
+    Error_Handler();
+  }
+
+  /* Initialize MDMA link node according to specified parameters */
+  nodeConfig.Init.Request = MDMA_REQUEST_SW;
+  nodeConfig.Init.TransferTriggerMode = MDMA_BUFFER_TRANSFER;
+  nodeConfig.Init.Priority = MDMA_PRIORITY_MEDIUM;
+  nodeConfig.Init.Endianness = MDMA_LITTLE_ENDIANNESS_PRESERVE;
+  nodeConfig.Init.SourceInc = MDMA_SRC_INC_WORD;
+  nodeConfig.Init.DestinationInc = MDMA_DEST_INC_WORD;
+  nodeConfig.Init.SourceDataSize = MDMA_SRC_DATASIZE_WORD;
+  nodeConfig.Init.DestDataSize = MDMA_DEST_DATASIZE_WORD;
+  nodeConfig.Init.DataAlignment = MDMA_DATAALIGN_PACKENABLE;
+  nodeConfig.Init.BufferTransferLength = 32;
+  nodeConfig.Init.SourceBurst = MDMA_SOURCE_BURST_SINGLE;
+  nodeConfig.Init.DestBurst = MDMA_DEST_BURST_SINGLE;
+  nodeConfig.Init.SourceBlockAddressOffset = 0;
+  nodeConfig.Init.DestBlockAddressOffset = 0;
+  nodeConfig.PostRequestMaskAddress = 0;
+  nodeConfig.PostRequestMaskData = 0;
+  nodeConfig.SrcAddress = 0;
+  nodeConfig.DstAddress = 0;
+  nodeConfig.BlockDataLength = 0;
+  nodeConfig.BlockCount = 0;
+  if (HAL_MDMA_LinkedList_CreateNode(&node_mdma_channel0_sw_1, &nodeConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN mdma_channel0_sw_1 */
+
+  /* USER CODE END mdma_channel0_sw_1 */
+
+  /* Connect a node to the linked list */
+  if (HAL_MDMA_LinkedList_AddNode(&hmdma_mdma_channel0_sdmmc1_end_data_0, &node_mdma_channel0_sw_1, 0) != HAL_OK)
   {
     Error_Handler();
   }

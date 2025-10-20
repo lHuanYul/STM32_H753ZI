@@ -423,7 +423,7 @@ static FDCAN_TxHeaderTypeDef TxHeader = {
     .TxEventFifoControl = FDCAN_STORE_TX_EVENTS,
 };
 // static FdcanPkt fdcan_trsm_pkt = {0};
-static UNUSED_FNC void pkt_transmit(void)
+static void pkt_transmit(void)
 {
     Result result = fdcan_pkt_buf_pop(&fdcan_trsm_pkt_buf);
     if (RESULT_CHECK_RAW(result)) return;
@@ -435,7 +435,7 @@ static UNUSED_FNC void pkt_transmit(void)
     fdcan_pkt_pool_free(pkt);
 }
 
-static UNUSED_FNC Result trsm_pkt_proc(void)
+static Result trsm_pkt_proc(void)
 {
     Result result = RESULT_OK(NULL);
     if (fdacn_data_store == FNC_ENABLE)
@@ -533,7 +533,7 @@ static Result recv_pkt_proc_inner(FdcanPkt* pkt)
     return RESULT_ERROR(RES_ERR_NOT_FOUND);
 }
 
-static UNUSED_FNC Result recv_pkt_proc(size_t count)
+static Result recv_pkt_proc(size_t count)
 {
     for (size_t i = 0; i < count; i++)
     {

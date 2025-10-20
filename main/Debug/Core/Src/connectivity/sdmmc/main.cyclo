@@ -1,2 +1,3 @@
-../Core/Src/connectivity/sdmmc/main.c:12:13:sd_wait_transfer	3
-../Core/Src/connectivity/sdmmc/main.c:23:6:StartSDCardTask	19
+../Core/Src/connectivity/sdmmc/main.c:10:13:sd_wait_transfer	3
+../Core/Src/connectivity/sdmmc/main.c:21:15:sd_restart	5
+../Core/Src/connectivity/sdmmc/main.c:58:6:StartSDCardTask	15

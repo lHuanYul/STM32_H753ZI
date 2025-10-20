@@ -19,7 +19,9 @@
 #include "stm32h753xx.h"
 #include "stm32h7xx_hal.h"
 
-#define UNUSED_FNC __attribute__((unused))
+
+#define ATTR_X(...) __attribute__((__VA_ARGS__))
+#define ATTR_UNUSED __attribute__((unused))
 #define BOARD_LED_TOGGLE HAL_GPIO_TogglePin(GPIOA,GPIO_PIN_5)
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 
@@ -46,6 +48,6 @@
 #define FDCAN_TRSM_BUF_CAP      10
 #define FDCAN_RECV_BUF_CAP      10
 
-#define SDMMC_CLK_DIV           10
+#define SDMMC_CLK_DIV           8
 
 // ! SYSTEM config END ------------------------------

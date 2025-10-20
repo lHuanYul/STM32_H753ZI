@@ -81,6 +81,16 @@
     "variable_cal.h": "c",
     "stm32h7xx_hal_def.h": "c",
     "stm32h7xx.h": "c",
-    "ffconf.h": "c"
+    "ffconf.h": "c",
+    "fatfs.h": "c",
+    "float.h": "c",
+    "string.h": "c",
+    "arm_math.h": "c",
+    "stm32h7xx_hal.h": "c",
+    "stm32h753xx.h": "c",
+    "stdio.h": "c",
+    "stdlib.h": "c",
+    "stddef.h": "c",
+    "bsp_driver_sd.h": "c"
   }
 }

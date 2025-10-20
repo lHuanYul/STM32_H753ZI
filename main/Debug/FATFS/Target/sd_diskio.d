@@ -59,7 +59,7 @@ FATFS/Target/sd_diskio.o: ../FATFS/Target/sd_diskio.c \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/task.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h \
  ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h \
- ../FATFS/Target/sd_diskio.h
+ ../FATFS/Target/sd_diskio.h ../Core/Inc/main/config_debug.h
 ../Middlewares/Third_Party/FatFs/src/ff_gen_drv.h:
 ../Middlewares/Third_Party/FatFs/src/diskio.h:
 ../Middlewares/Third_Party/FatFs/src/integer.h:
@@ -124,3 +124,4 @@ FATFS/Target/sd_diskio.o: ../FATFS/Target/sd_diskio.c \
 ../Middlewares/Third_Party/FreeRTOS/Source/include/list.h:
 ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS_V2/cmsis_os2.h:
 ../FATFS/Target/sd_diskio.h:
+../Core/Inc/main/config_debug.h:

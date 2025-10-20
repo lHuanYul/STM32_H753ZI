@@ -1,1 +1,1 @@
-../Core/Src/connectivity/sdmmc/basic.c:12:19:mdma_memcpy_align32	64	static
+../Core/Src/connectivity/sdmmc/basic.c:13:19:mdma_memcpy_align32	64	static

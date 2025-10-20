@@ -3,16 +3,14 @@
 #define CACHE_LINE_SIZE 32
 #define ALIGN_UP(x) (((x) + CACHE_LINE_SIZE - 1) & ~(CACHE_LINE_SIZE - 1))
 
-// __attribute__((section(".dma_nc"), aligned(32))) uint8_t sd_dma_wbuf[512];
-// __attribute__((section(".dma_nc"), aligned(32))) uint8_t sd_dma_rbuf[512];
-__attribute__((aligned(32))) uint8_t wbuf[8];
-__attribute__((aligned(32))) uint8_t rbuf[8] = {0};
+ATTR_X(section(".dma_nc"), aligned(32)) uint8_t wbuf[8];
+ATTR_X(section(".dma_nc"), aligned(32)) uint8_t rbuf[8] = {0};
 static const char msg[] = "HELLO";
 
 static bool sd_wait_transfer(uint32_t ms)
 {
     uint32_t t = 0;
-    while (HAL_SD_GetCardState(sd_card.const_h.hsdx) != HAL_SD_CARD_TRANSFER) {
+    while (HAL_SD_GetCardState(sd_card0.const_h.hsdx) != HAL_SD_CARD_TRANSFER) {
         osDelay(1);
         if (++t >= ms) return false;
     }
@@ -20,65 +18,69 @@ static bool sd_wait_transfer(uint32_t ms)
 }
 
 uint32_t running = 0;
+static Result restart_check(SD_CARD *sd_card)
+{
+    if (sd_card->state == SD_CARD_STATE_READY) return RESULT_OK(sd_card);
+    running = 1;
+    f_mount(NULL, sd_card->const_h.SDPath, 0);
+    sd_card->hal_status = HAL_SD_Abort(sd_card->const_h.hsdx);
+    sd_card->hal_status = HAL_SD_DeInit(sd_card->const_h.hsdx);
+    FATFS_UnLinkDriver(sd_card->const_h.SDPath);
+    running = 2;
+    sd_card->MSD_state = BSP_SD_Init();
+    FATFS_LinkDriver(&SD_Driver, sd_card->const_h.SDPath);
+    if (sd_card->MSD_state != MSD_OK) return RESULT_ERROR(RES_ERR_FAIL);
+    uint32_t t=0;
+    while (BSP_SD_GetCardState() != SD_TRANSFER_OK)
+    {
+        osDelay(1);
+        if (++t >= 2000) return RESULT_ERROR(RES_ERR_FAIL);
+    }
+    running = 3;
+    sd_card->f_result = f_mount(&sd_card->fs, sd_card->const_h.SDPath, 1);
+    if (sd_card->f_result != FR_OK) return RESULT_ERROR(RES_ERR_FAIL);
+    sd_card->state = SD_CARD_STATE_READY;
+    return RESULT_OK(sd_card);
+}
+
+#define SD_CARD_ACT(num, expr)              \
+    ({                                      \
+        running = (num);                    \
+        sd_card0.f_result = (expr);         \
+        if (                                \
+               sd_card0.f_result != FR_OK   \
+        ) {                                 \
+            sd_card0.state =                \
+                SD_CARD_STATE_ERROR;        \
+            osDelay(1000);                  \
+            continue;                       \
+        }                                   \
+    })
 void StartSDCardTask(void *argument)
 {
     while (retSD != 0);
-    running = 1;
-    sd_card.f_result = f_mount(&sd_card.fs, (TCHAR const*)SDPath, 1);
-    while (sd_card.f_result != FR_OK);
-
-    running = 2;
-    sd_card.f_result = f_open(&sd_card.file, "test.txt", FA_OPEN_ALWAYS);
-    while (sd_card.f_result != FR_OK);
-
-    running = 3;
-    sd_card.f_result = f_close(&sd_card.file);
-    while (sd_card.f_result != FR_OK);
-    osDelay(100);
-    
-    running = 4;
-    sd_card.f_result = f_open(&sd_card.file, "test.txt", FA_OPEN_ALWAYS | FA_WRITE);
-    while (sd_card.f_result != FR_OK);
-
-    running = 5;
-    memcpy(wbuf, msg, sizeof(msg));
-    SCB_CleanDCache_by_Addr((uint32_t*)wbuf, ALIGN_UP(sizeof(msg)-1));
-
-    running = 6;
-    sd_card.f_result = f_write(&sd_card.file, wbuf, sizeof(msg)-1, &sd_card.bits);
-    while (sd_card.f_result != FR_OK && !sd_wait_transfer(2000));
-
-    running = 7;
-    sd_card.f_result = f_sync(&sd_card.file);
-    while (sd_card.f_result != FR_OK && !sd_wait_transfer(2000));
-
-    running = 8;
-    sd_card.f_result = f_close(&sd_card.file);
-    while (sd_card.f_result != FR_OK);
-    osDelay(100);
-
-    running = 9;
-    sd_card.f_result = f_open(&sd_card.file, "test.txt", FA_OPEN_ALWAYS | FA_READ);
-    while (sd_card.f_result != FR_OK);
-
-    running = 10;
-    SCB_InvalidateDCache_by_Addr((uint32_t*)rbuf, ALIGN_UP(sizeof(rbuf)));
-
-    running = 11;
-    sd_card.f_result = f_read(&sd_card.file, rbuf, sizeof(msg)-1, &sd_card.bits);
-    while (sd_card.f_result != FR_OK);
-
-    running = 12;
-    sd_card.f_result = f_close(&sd_card.file);
-    while (sd_card.f_result != FR_OK);
-
-    running = 20;
-    sd_card.f_result = f_mount(NULL, "", 0);
-    while (sd_card.f_result != FR_OK);
-
     for(;;)
     {
+        if(RESULT_CHECK_RAW(restart_check(&sd_card0)))
+        {
+            osDelay(1000);
+            continue;
+        }
+        SD_CARD_ACT(11, f_open(&sd_card0.file_0, "test.txt", FA_OPEN_ALWAYS | FA_WRITE));
+        memcpy(wbuf, msg, sizeof(msg));
+        SCB_CleanDCache_by_Addr((uint32_t*)wbuf, ALIGN_UP(sizeof(msg)));
+        SD_CARD_ACT(12, f_write(&sd_card0.file_0, wbuf, sizeof(msg), &sd_card0.bits));
+        /**
+         * 如果f_sync錯誤code=2 CLK/CMD線注意
+         */
+        SD_CARD_ACT(13, f_sync(&sd_card0.file_0));
+        SD_CARD_ACT(14, f_close(&sd_card0.file_0));
+        osDelay(100);
+        SD_CARD_ACT(21, f_open(&sd_card0.file_0, "test.txt", FA_OPEN_ALWAYS | FA_READ));
+        SCB_InvalidateDCache_by_Addr((uint32_t*)rbuf, ALIGN_UP(sizeof(rbuf)));
+        SD_CARD_ACT(22, f_read(&sd_card0.file_0, rbuf, sizeof(msg), &sd_card0.bits));
+        SD_CARD_ACT(23, f_close(&sd_card0.file_0));
+        running = 100;
         osDelay(1000);
-        running++;
     }
 }

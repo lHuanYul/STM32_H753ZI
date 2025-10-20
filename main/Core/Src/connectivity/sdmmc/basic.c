@@ -2,11 +2,12 @@
 #include "sdmmc.h"
 #include "mdma.h"
 
-SD_CARD sd_card = {
+SD_CARD sd_card0 = {
     .const_h = {
         .hsdx = &hsd1,
         .hmdma = &hmdma_mdma_channel0_sdmmc1_end_data_0,
-    }
+        .SDPath = SDPath,
+    },
 };
 
 HAL_StatusTypeDef mdma_memcpy_align32(void *dst32, const void *src, size_t len)
@@ -17,9 +18,9 @@ HAL_StatusTypeDef mdma_memcpy_align32(void *dst32, const void *src, size_t len)
 
     if (words)
     {
-        HAL_StatusTypeDef st = HAL_MDMA_Start(sd_card.const_h.hmdma, (uint32_t)src, (uint32_t)dst32, words * 4, 1);
+        HAL_StatusTypeDef st = HAL_MDMA_Start(sd_card0.const_h.hmdma, (uint32_t)src, (uint32_t)dst32, words * 4, 1);
         if (st != HAL_OK) return st;
-        st = HAL_MDMA_PollForTransfer(sd_card.const_h.hmdma, HAL_MDMA_FULL_TRANSFER, 1000);
+        st = HAL_MDMA_PollForTransfer(sd_card0.const_h.hmdma, HAL_MDMA_FULL_TRANSFER, 1000);
         if (st != HAL_OK) return st;
     }
     if (rest)

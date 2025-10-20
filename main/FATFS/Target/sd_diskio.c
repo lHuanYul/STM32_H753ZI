@@ -131,6 +131,7 @@ const Diskio_drvTypeDef  SD_Driver =
 
 /* USER CODE BEGIN beforeFunctionSection */
 /* can be used to modify / undefine following code or add new code */
+#include "main/config_debug.h"
 /* USER CODE END beforeFunctionSection */
 
 /* Private functions ---------------------------------------------------------*/
