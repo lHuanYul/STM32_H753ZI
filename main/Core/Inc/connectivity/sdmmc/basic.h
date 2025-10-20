@@ -24,8 +24,8 @@ typedef struct SD_CARD
     HAL_SD_CardStateTypeDef card_state;
     HAL_StatusTypeDef hal_status;
     FRESULT f_result;
-    FATFS fs;
-    FIL file_0;
+    FATFS fatfs_h;
+    FIL file_h;
     UINT bits;
 } SD_CARD;
 

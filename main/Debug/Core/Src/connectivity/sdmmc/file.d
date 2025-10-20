@@ -1,6 +1,5 @@
-Core/Src/connectivity/sdmmc/main.o: ../Core/Src/connectivity/sdmmc/main.c \
- ../Core/Inc/connectivity/sdmmc/main.h \
- ../Core/Inc/connectivity/sdmmc/basic.h ../Core/Inc/main/config.h \
+Core/Src/connectivity/sdmmc/file.o: ../Core/Src/connectivity/sdmmc/file.c \
+ ../Core/Inc/connectivity/sdmmc/file.h ../Core/Inc/main/config.h \
  ../Middlewares/ST/ARM/DSP/Inc/arm_math.h \
  ../Drivers/CMSIS/Include/cmsis_compiler.h \
  ../Drivers/CMSIS/Include/cmsis_gcc.h \
@@ -65,9 +64,8 @@ Core/Src/connectivity/sdmmc/main.o: ../Core/Src/connectivity/sdmmc/main.c \
  ../Middlewares/Third_Party/FatFs/src/diskio.h \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/sd_diskio.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h \
- ../Core/Inc/main/fn_state.h ../Core/Inc/connectivity/sdmmc/file.h
-../Core/Inc/connectivity/sdmmc/main.h:
-../Core/Inc/connectivity/sdmmc/basic.h:
+ ../Core/Inc/main/fn_state.h
+../Core/Inc/connectivity/sdmmc/file.h:
 ../Core/Inc/main/config.h:
 ../Middlewares/ST/ARM/DSP/Inc/arm_math.h:
 ../Drivers/CMSIS/Include/cmsis_compiler.h:
@@ -139,4 +137,3 @@ Core/Src/connectivity/sdmmc/main.o: ../Core/Src/connectivity/sdmmc/main.c \
 ../FATFS/Target/sd_diskio.h:
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h:
 ../Core/Inc/main/fn_state.h:
-../Core/Inc/connectivity/sdmmc/file.h:

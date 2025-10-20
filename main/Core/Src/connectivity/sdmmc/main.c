@@ -1,4 +1,5 @@
 #include "connectivity/sdmmc/main.h"
+#include "connectivity/sdmmc/file.h"
 
 #define CACHE_LINE_SIZE 32
 #define ALIGN_UP(x) (((x) + CACHE_LINE_SIZE - 1) & ~(CACHE_LINE_SIZE - 1))
@@ -37,7 +38,7 @@ static Result restart_check(SD_CARD *sd_card)
         if (++t >= 2000) return RESULT_ERROR(RES_ERR_FAIL);
     }
     running = 3;
-    sd_card->f_result = f_mount(&sd_card->fs, sd_card->const_h.SDPath, 1);
+    sd_card->f_result = f_mount(&sd_card->fatfs_h, sd_card->const_h.SDPath, 1);
     if (sd_card->f_result != FR_OK) return RESULT_ERROR(RES_ERR_FAIL);
     sd_card->state = SD_CARD_STATE_READY;
     return RESULT_OK(sd_card);
@@ -66,20 +67,20 @@ void StartSDCardTask(void *argument)
             osDelay(1000);
             continue;
         }
-        SD_CARD_ACT(11, f_open(&sd_card0.file_0, "test.txt", FA_OPEN_ALWAYS | FA_WRITE));
+        SD_CARD_ACT(11, f_open(&sd_card0.file_h, file_test.const_h.name, FA_OPEN_ALWAYS | FA_WRITE));
         memcpy(wbuf, msg, sizeof(msg));
         SCB_CleanDCache_by_Addr((uint32_t*)wbuf, ALIGN_UP(sizeof(msg)));
-        SD_CARD_ACT(12, f_write(&sd_card0.file_0, wbuf, sizeof(msg), &sd_card0.bits));
+        SD_CARD_ACT(12, f_write(&sd_card0.file_h, wbuf, sizeof(msg), &sd_card0.bits));
         /**
          * 如果f_sync錯誤code=2 CLK/CMD線注意
          */
-        SD_CARD_ACT(13, f_sync(&sd_card0.file_0));
-        SD_CARD_ACT(14, f_close(&sd_card0.file_0));
+        SD_CARD_ACT(13, f_sync(&sd_card0.file_h));
+        SD_CARD_ACT(14, f_close(&sd_card0.file_h));
         osDelay(100);
-        SD_CARD_ACT(21, f_open(&sd_card0.file_0, "test.txt", FA_OPEN_ALWAYS | FA_READ));
+        SD_CARD_ACT(21, f_open(&sd_card0.file_h, file_test.const_h.name, FA_OPEN_ALWAYS | FA_READ));
         SCB_InvalidateDCache_by_Addr((uint32_t*)rbuf, ALIGN_UP(sizeof(rbuf)));
-        SD_CARD_ACT(22, f_read(&sd_card0.file_0, rbuf, sizeof(msg), &sd_card0.bits));
-        SD_CARD_ACT(23, f_close(&sd_card0.file_0));
+        SD_CARD_ACT(22, f_read(&sd_card0.file_h, rbuf, sizeof(msg), &sd_card0.bits));
+        SD_CARD_ACT(23, f_close(&sd_card0.file_h));
         running = 100;
         osDelay(1000);
     }

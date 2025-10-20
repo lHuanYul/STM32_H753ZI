@@ -6,14 +6,17 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/connectivity/sdmmc/basic.c \
+../Core/Src/connectivity/sdmmc/file.c \
 ../Core/Src/connectivity/sdmmc/main.c 
 
 OBJS += \
 ./Core/Src/connectivity/sdmmc/basic.o \
+./Core/Src/connectivity/sdmmc/file.o \
 ./Core/Src/connectivity/sdmmc/main.o 
 
 C_DEPS += \
 ./Core/Src/connectivity/sdmmc/basic.d \
+./Core/Src/connectivity/sdmmc/file.d \
 ./Core/Src/connectivity/sdmmc/main.d 
 
 
@@ -24,7 +27,7 @@ Core/Src/connectivity/sdmmc/%.o Core/Src/connectivity/sdmmc/%.su Core/Src/connec
 clean: clean-Core-2f-Src-2f-connectivity-2f-sdmmc
 
 clean-Core-2f-Src-2f-connectivity-2f-sdmmc:
-	-$(RM) ./Core/Src/connectivity/sdmmc/basic.cyclo ./Core/Src/connectivity/sdmmc/basic.d ./Core/Src/connectivity/sdmmc/basic.o ./Core/Src/connectivity/sdmmc/basic.su ./Core/Src/connectivity/sdmmc/main.cyclo ./Core/Src/connectivity/sdmmc/main.d ./Core/Src/connectivity/sdmmc/main.o ./Core/Src/connectivity/sdmmc/main.su
+	-$(RM) ./Core/Src/connectivity/sdmmc/basic.cyclo ./Core/Src/connectivity/sdmmc/basic.d ./Core/Src/connectivity/sdmmc/basic.o ./Core/Src/connectivity/sdmmc/basic.su ./Core/Src/connectivity/sdmmc/file.cyclo ./Core/Src/connectivity/sdmmc/file.d ./Core/Src/connectivity/sdmmc/file.o ./Core/Src/connectivity/sdmmc/file.su ./Core/Src/connectivity/sdmmc/main.cyclo ./Core/Src/connectivity/sdmmc/main.d ./Core/Src/connectivity/sdmmc/main.o ./Core/Src/connectivity/sdmmc/main.su
 
 .PHONY: clean-Core-2f-Src-2f-connectivity-2f-sdmmc
 

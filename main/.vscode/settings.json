@@ -91,6 +91,7 @@
     "stdio.h": "c",
     "stdlib.h": "c",
     "stddef.h": "c",
-    "bsp_driver_sd.h": "c"
+    "bsp_driver_sd.h": "c",
+    "file.h": "c"
   }
 }
