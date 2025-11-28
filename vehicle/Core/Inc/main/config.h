@@ -42,10 +42,10 @@
 #define FDCAN_TX_BUF_NBR        4
 #define FDCAN_TX_FIFO_NBR       16
 #define FDCAN_TX_EVT_NBR        (FDCAN_TX_BUF_NBR+FDCAN_TX_FIFO_NBR)
-#define FDCAN_FILTER0_ID_MIN    0x020
-#define FDCAN_FILTER0_ID_MAX    0x021
-#define FDCAN_FILTER1_ID_MIN    0x022
-#define FDCAN_FILTER1_ID_MAX    0x023
+#define FDCAN_FILTER0_ID_MIN    0x010
+#define FDCAN_FILTER0_ID_MAX    0x011
+#define FDCAN_FILTER1_ID_MIN    0x012
+#define FDCAN_FILTER1_ID_MAX    0x013
 #define FDCAN_TEST_ID           0x001
 #define FDCAN_DATA_ID           0x011
 #define FDCAN_PKT_LEN           8

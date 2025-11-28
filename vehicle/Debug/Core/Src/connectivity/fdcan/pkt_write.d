@@ -67,6 +67,7 @@ Core/Src/connectivity/fdcan/pkt_write.o: \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h \
  ../Core/Inc/main/fn_state.h ../Core/Inc/connectivity/fdcan/basic.h \
  ../Core/Inc/main/typedef.h ../Core/Inc/connectivity/cmds.h \
+ ../Core/Inc/connectivity/fdcan/pkt_read.h \
  ../Core/Inc/main/variable_cal.h
 ../Core/Inc/connectivity/fdcan/pkt_write.h:
 ../Core/Inc/main/config.h:
@@ -143,4 +144,5 @@ Core/Src/connectivity/fdcan/pkt_write.o: \
 ../Core/Inc/connectivity/fdcan/basic.h:
 ../Core/Inc/main/typedef.h:
 ../Core/Inc/connectivity/cmds.h:
+../Core/Inc/connectivity/fdcan/pkt_read.h:
 ../Core/Inc/main/variable_cal.h:

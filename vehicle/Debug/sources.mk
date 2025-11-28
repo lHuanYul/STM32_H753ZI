@@ -26,6 +26,7 @@ Core/Src/connectivity/fdcan \
 Core/Src/connectivity/sdmmc \
 Core/Src \
 Core/Src/main \
+Core/Src/robotic_arm \
 Core/Startup \
 Drivers/STM32H7xx_HAL_Driver/Src \
 FATFS/App \

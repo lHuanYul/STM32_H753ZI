@@ -1,0 +1,8 @@
+../Core/Src/robotic_arm/main.c:32:13:arm_setup	24	static
+../Core/Src/robotic_arm/main.c:38:13:arm_turn	24	static
+../Core/Src/robotic_arm/main.c:52:6:StartArmMotorTask	16	static
+../Core/Src/robotic_arm/main.c:75:6:arm_motion_switch	16	static
+../Core/Src/robotic_arm/main.c:78:6:arm_motion_set	24	static
+../Core/Src/robotic_arm/main.c:106:13:motion_set_inner	24	static
+../Core/Src/robotic_arm/main.c:132:13:delay_until_reach	8	static
+../Core/Src/robotic_arm/main.c:148:6:StartArmTask	16	static

@@ -31,6 +31,7 @@ static Result recv_pkts_proc(size_t count)
     return RESULT_OK(NULL);
 }
 
+size_t fdcan_tick;
 #define FDCAN_TASK_DELAY_MS 10
 void StartFdCanTask(void *argument)
 {
@@ -75,7 +76,7 @@ void StartFdCanTask(void *argument)
     );
     ERROR_CHECK_HAL_HANDLE(HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0));
     ERROR_CHECK_HAL_HANDLE(HAL_FDCAN_ActivateNotification(&hfdcan1, FDCAN_IT_RX_FIFO1_NEW_MESSAGE, 0));
-    size_t tick = 0;
+    fdcan_tick = 0;
     const uint32_t osPeriod = pdMS_TO_TICKS(FDCAN_TASK_DELAY_MS);
     uint32_t next_wake = osKernelGetTickCount() + osPeriod;
     for(;;)
@@ -88,14 +89,14 @@ void StartFdCanTask(void *argument)
         }
         pkt_transmit();
         recv_pkts_proc(5);
-        if (tick % 50 == 0)
+        if (fdcan_tick % 50 == 0)
         {
-            tick = 0;
+            fdcan_tick = 0;
             trsm_pkt_proc();
         }
         osDelayUntil(next_wake);
         next_wake += osPeriod;
-        tick++;
+        fdcan_tick++;
     }
     #endif
 }

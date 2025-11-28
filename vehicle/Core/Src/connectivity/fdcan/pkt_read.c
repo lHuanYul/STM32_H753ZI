@@ -538,6 +538,13 @@ Result fdcan_pkt_ist_read(FdcanPkt* pkt)
 }
 #endif
 
+uint32_t ist_read_cnt = 0;
+Result fdcan_pkt_ist_read(FdcanPkt* pkt)
+{
+    ist_read_cnt++;
+    return RESULT_OK(NULL);
+}
+
 Result fdcan_pkt_rcv_read(FdcanPkt* pkt)
 {
     uint8_t code;

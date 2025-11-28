@@ -19,6 +19,7 @@ RM := rm -rf
 -include FATFS/App/subdir.mk
 -include Drivers/STM32H7xx_HAL_Driver/Src/subdir.mk
 -include Core/Startup/subdir.mk
+-include Core/Src/robotic_arm/subdir.mk
 -include Core/Src/main/subdir.mk
 -include Core/Src/connectivity/sdmmc/subdir.mk
 -include Core/Src/connectivity/fdcan/subdir.mk
@@ -71,8 +72,8 @@ all: main-build
 main-build: main.elf secondary-outputs
 
 # Tool invocations
-main.elf main.map: $(OBJS) $(USER_OBJS) C:\Users\HuanYu\Desktop\Codes\STM32_H753ZI\main\STM32H753ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "main.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\HuanYu\Desktop\Codes\STM32_H753ZI\main\STM32H753ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+main.elf main.map: $(OBJS) $(USER_OBJS) C:\Users\HuanYu-NB\Desktop\Codes\STM32_H753ZI\vehicle\STM32H753ZITX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "main.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\HuanYu-NB\Desktop\Codes\STM32_H753ZI\vehicle\STM32H753ZITX_FLASH.ld" --specs=nosys.specs -Wl,-Map="main.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

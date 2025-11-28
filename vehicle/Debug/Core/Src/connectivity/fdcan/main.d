@@ -66,7 +66,8 @@ Core/Src/connectivity/fdcan/main.o: ../Core/Src/connectivity/fdcan/main.c \
  ../Middlewares/Third_Party/FatFs/src/ff.h ../FATFS/Target/sd_diskio.h \
  ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h \
  ../Core/Inc/main/fn_state.h ../Core/Inc/main/typedef.h \
- ../Core/Inc/fdcan.h ../Core/Inc/main.h ../Core/Inc/connectivity/cmds.h \
+ ../Core/Inc/connectivity/cmds.h ../Core/Inc/fdcan.h ../Core/Inc/main.h \
+ ../Core/Inc/connectivity/fdcan/pkt_read.h \
  ../Core/Inc/connectivity/fdcan/pkt_write.h
 ../Core/Inc/connectivity/fdcan/main.h:
 ../Core/Inc/connectivity/fdcan/basic.h:
@@ -142,7 +143,8 @@ Core/Src/connectivity/fdcan/main.o: ../Core/Src/connectivity/fdcan/main.c \
 ../Drivers/CMSIS/Device/ST/STM32H7xx/Include/stm32h753xx.h:
 ../Core/Inc/main/fn_state.h:
 ../Core/Inc/main/typedef.h:
+../Core/Inc/connectivity/cmds.h:
 ../Core/Inc/fdcan.h:
 ../Core/Inc/main.h:
-../Core/Inc/connectivity/cmds.h:
+../Core/Inc/connectivity/fdcan/pkt_read.h:
 ../Core/Inc/connectivity/fdcan/pkt_write.h:

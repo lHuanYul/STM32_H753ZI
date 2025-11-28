@@ -1,0 +1,2 @@
+../Core/Src/robotic_arm/basic.c:88:6:arm_set_tim	24	static
+../Core/Src/robotic_arm/basic.c:96:6:arm_set_pos	16	static

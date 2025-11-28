@@ -1,3 +1,4 @@
-../Core/Src/freertos.c:80:6:MX_FREERTOS_Init	1
-../Core/Src/freertos.c:125:13:StartDefaultTask	1
-../Core/Src/freertos.c:143:13:StartSDCardTask	1
+../Core/Src/freertos.c:88:6:MX_FREERTOS_Init	1
+../Core/Src/freertos.c:136:13:StartDefaultTask	1
+../Core/Src/freertos.c:154:13:StartSDCardTask	1
+../Core/Src/freertos.c:172:13:StartFdCanTask	1

@@ -94,6 +94,7 @@
     "bsp_driver_sd.h": "c",
     "file.h": "c",
     "stm32h7xx_hal_conf.h": "c",
-    "stm32h7xx_hal_fdcan.h": "c"
+    "stm32h7xx_hal_fdcan.h": "c",
+    "pkt_read.h": "c"
   }
 }
