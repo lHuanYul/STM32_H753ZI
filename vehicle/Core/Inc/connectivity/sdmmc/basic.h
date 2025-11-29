@@ -31,4 +31,4 @@ typedef struct SD_CARD
 
 extern SD_CARD sd_card0;
 
-HAL_StatusTypeDef mdma_memcpy_align32(void *dst32, const void *src, size_t len);
+HAL_StatusTypeDef mdma_memcpy_align32(void *dst32, const void *src, uint8_t len);

@@ -13,6 +13,7 @@
 
 #define ATTR_X(...) __attribute__((__VA_ARGS__))
 #define ATTR_UNUSED __attribute__((unused))
+#define ATTR_WEAK   __attribute__((weak))
 
 // ! SYSTEM config, Change CAREFULLY --------------------
 // ! Also CHECK ALL basic.c file
