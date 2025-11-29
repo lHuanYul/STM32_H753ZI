@@ -1,2 +1,0 @@
-../Core/Src/connectivity/fdcan/pkt_read.c:538:8:fdcan_pkt_ist_read	1
-../Core/Src/connectivity/fdcan/pkt_read.c:543:8:fdcan_pkt_rcv_read	2
