@@ -6,29 +6,35 @@
 
 #include "main/config.h"
 
-typedef struct SuccessResult {
-    void* obj;
+typedef struct SuccessResult
+{
+    void *obj;
 } SuccessResult;
 
-typedef enum ErrorType {
+typedef enum ErrorType
+{
     RES_ERR_INVALID = -1,
-    RES_ERR_FAIL,
+    RES_ERR_UND     = 0,
+    RES_ERR_FAIL    = 1,
+    RES_ERR_BUSY    = 2,
+    RES_ERR_TIMEOUT = 3,
     RES_ERR_MEMORY_ERROR,
-    RES_ERR_BUSY,
-    RES_ERR_TIMEOUT,
     RES_ERR_EMPTY,
     RES_ERR_FULL,
     RES_ERR_OVERFLOW,
     RES_ERR_NOT_FOUND,
     RES_ERR_NOT_MOVE,
     RES_ERR_REMOVE_FAIL,
+    RES_ERR_DIV_0,
 } ErrorType;
 
 extern ErrorType last_error;
 
-typedef struct Result {
+typedef struct Result
+{
     bool is_ok;
-    union {
+    union
+    {
         SuccessResult success;
         ErrorType error;
     } result;
@@ -56,7 +62,7 @@ typedef struct Result {
         if (RESULT_CHECK_RAW(res))          \
         {                                   \
             last_error = res.result.error;  \
-            Error_Handler();                \
+            while (1) {}                    \
         }                                   \
     } while (0)
 
@@ -66,7 +72,7 @@ typedef struct Result {
         if (RESULT_CHECK_RAW(res))          \
         {                                   \
             last_error = res.result.error;  \
-            Error_Handler();                \
+            while (1) {}                    \
         }                                   \
         (res).result.success.obj;           \
     })
@@ -106,15 +112,15 @@ typedef struct Result {
 #define RESULT_CHECK_CLEANUP(expr)              \
     do {                                        \
         result = (expr);                        \
-        if (RESULT_CHECK_RAW(result))          \
+        if (RESULT_CHECK_RAW(result))           \
         {                                       \
-            last_error = result.result.error;  \
+            last_error = result.result.error;   \
             goto cleanup;                       \
         }                                       \
     } while (0)
 
 #ifdef STM32_DEVICE
-#define ERROR_CHECK_HAL_RETERN(expr)        \
+#define ERROR_CHECK_HAL_RET_HAL(expr)       \
     do {                                    \
         HAL_StatusTypeDef _err = (expr);    \
         if (_err != HAL_OK)                 \
@@ -123,30 +129,28 @@ typedef struct Result {
         }                                   \
     } while (0)
 
+#define ERROR_CHECK_HAL_RET_RES(expr)       \
+    do {                                    \
+        HAL_StatusTypeDef _err = (expr);    \
+        if (_err != HAL_OK)                 \
+        {                                   \
+            return RESULT_ERROR(_err);      \
+        }                                   \
+    } while (0)
+
 #define ERROR_CHECK_HAL_HANDLE(expr)        \
     do {                                    \
         HAL_StatusTypeDef _err = (expr);    \
         if (_err != HAL_OK)                 \
         {                                   \
-            Error_Handler();                \
+            last_error = _err;              \
+            while (1) {}                    \
         }                                   \
     } while (0)
 #endif
 
-#ifdef AGV_ESP32_DEVICE
-
-void Error_Handler(void);
-
-#endif
-
-#ifdef PRINCIPAL_PROGRAM
-#define ERROR_TIMEOUT_TIME_LIMIT (15*1000)
-
-typedef struct Result_h
-{
-    Result vehicle_rotate_in_place;
-    Result agv_forward_leave_strong_magnet;
-} Result_h;
-extern Result_h error_state;
-void timeout_error(uint32_t start_time, Result *error_parameter);
-#endif
+#define StopTask()  \
+({                  \
+    osThreadExit(); \
+    return;         \
+})

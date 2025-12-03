@@ -29,7 +29,7 @@
 #define STM32_DEVICE
 #define STM32_H753ZI
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
-#define PROJECT_MAIN
+#define MCU_VEHICLE_MAIN
 
 #define TIM3_PSC        1700
 #define TIM3_ARR        2000
@@ -58,3 +58,5 @@
 
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------
+
+typedef uint8_t Percentage;
