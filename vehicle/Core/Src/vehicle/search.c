@@ -7,8 +7,8 @@ void vehicle_search
     VehicleMode timeout_next,
     uint32_t unfind_ms
 ) {
-    vehicle->motor_left_ref.value = 20;
-    vehicle->motor_right_ref.value = 20;
+    vehicle->motor_left.value_ref = 20;
+    vehicle->motor_right.value_ref = 20;
     if (vehicle->hall_front != ADC_HALL_STATE_NONE)
     {
         vehicle->last_tick_on_mag = HAL_GetTick();

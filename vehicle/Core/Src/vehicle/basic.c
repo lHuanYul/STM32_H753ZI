@@ -3,18 +3,18 @@
 #include "connectivity/fdcan/pkt_write.h"
 
 VehicleParameter vehicle_h = {
-    .motor_left_ref = {
+    .motor_left = {
         .id = CAN_ID_WHEEL_LEFT_SET,
         .max = 200.0f,
     },
-    .motor_right_ref = {
+    .motor_right = {
         .id = CAN_ID_WHEEL_RIGHT_SET,
         .max = 200.0f,
     },
-    .motor_left_ref = {
+    .motor_left = {
         .id = CAN_ID_WHEEL_LEFT_SPD_FBK,
     },
-    .motor_right_ref = {
+    .motor_right = {
         .id = CAN_ID_WHEEL_RIGHT_SPD_FBK,
     },
 };

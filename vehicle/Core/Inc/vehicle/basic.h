@@ -73,14 +73,18 @@ typedef enum USSStatus
     USS_STATUS_DANGER,
 } USSStatus;
 
-typedef struct MotorSet
+typedef struct MotorParameter
 {
     const uint16_t id;
-    uint8_t mode;
-    bool reverse;
-    Percentage value;
+    uint32_t alive_tick;
+    uint8_t mode_ref;
+    bool rev_ref;
+    Percentage value_ref;
+    uint8_t mode_fbk;
+    bool rev_fbk;
+    Percentage value_fbk;
     float32_t max;
-} MotorSet;
+} MotorParameter;
 
 typedef struct VehicleParameter
 {
@@ -94,10 +98,8 @@ typedef struct VehicleParameter
     VehicleHallState hall_left;
     VehicleHallState hall_right;
     USSStatus us_sensor;
-    MotorSet motor_left_ref;
-    MotorSet motor_right_ref;
-    MotorSet motor_left_fbk;
-    MotorSet motor_right_fbk;
+    MotorParameter motor_left;
+    MotorParameter motor_right;
 
     uint32_t last_tick_on_mag;
     uint8_t search_cnt;

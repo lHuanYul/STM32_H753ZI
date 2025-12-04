@@ -47,14 +47,15 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
 #ifdef MCU_VEHICLE_MAIN
 #include "vehicle/main.h"
 
-static Result motor_pkt(FdcanPkt *pkt, MotorSet *motor)
+static Result motor_pkt(FdcanPkt *pkt, MotorParameter *motor)
 {
+    motor->alive_tick = HAL_GetTick();
     if (pkt->len != 1 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-    motor->mode = pkt->data[0];
-    motor->reverse = pkt->data[1];
+    motor->mode_fbk = pkt->data[0];
+    motor->rev_fbk = pkt->data[1];
     uint8_t spd_u8[sizeof(float32_t)];
     memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
-    motor->value = var_u8_to_f32_be(spd_u8);
+    motor->value_fbk = var_u8_to_f32_be(spd_u8);
     return RESULT_OK(NULL);
 }
 
@@ -65,11 +66,11 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
     {
         case CAN_ID_WHEEL_LEFT_SPD_FBK:
         {
-            return motor_pkt(pkt, &vehicle_h.motor_left_fbk);
+            return motor_pkt(pkt, &vehicle_h.motor_left);
         }
         case CAN_ID_WHEEL_RIGHT_SPD_FBK:
         {
-            return motor_pkt(pkt, &vehicle_h.motor_right_fbk);
+            return motor_pkt(pkt, &vehicle_h.motor_right);
         }
         case CAN_ID_HALL_ALL:
         {

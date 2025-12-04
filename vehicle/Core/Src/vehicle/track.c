@@ -5,8 +5,8 @@
  */
 void vehicle_track_normal(VehicleParameter *vehicle, uint32_t unfind_ms)
 {
-    vehicle->motor_left_ref.value = vehicle->reference.speed;
-    vehicle->motor_right_ref.value = vehicle->reference.speed;
+    vehicle->motor_left.value_ref = vehicle->reference.speed;
+    vehicle->motor_right.value_ref = vehicle->reference.speed;
     if (vehicle->hall_front != ADC_HALL_STATE_NONE)
         vehicle->last_tick_on_mag = HAL_GetTick();
     else
@@ -16,14 +16,14 @@ void vehicle_track_normal(VehicleParameter *vehicle, uint32_t unfind_ms)
             vehicle->hall_right == ADC_HALL_STATE_NONE
         ) {
             vehicle->last_tick_on_mag = HAL_GetTick();
-            vehicle->motor_left_ref.value = 0;
+            vehicle->motor_left.value_ref = 0;
         }
         else if (
             vehicle->hall_left == ADC_HALL_STATE_NONE &&
             vehicle->hall_right != ADC_HALL_STATE_NONE
         ) {
             vehicle->last_tick_on_mag = HAL_GetTick();
-            vehicle->motor_right_ref.value = 0;
+            vehicle->motor_right.value_ref = 0;
         }
         else if (
             vehicle->hall_left != ADC_HALL_STATE_NONE &&
@@ -47,8 +47,8 @@ void vehicle_track_normal(VehicleParameter *vehicle, uint32_t unfind_ms)
   */
 void vehicle_track_rotate(VehicleParameter *vehicle, uint32_t unfind_ms)
 {
-    vehicle->motor_left_ref.value = vehicle->reference.speed;
-    vehicle->motor_right_ref.value = vehicle->reference.speed;
+    vehicle->motor_left.value_ref = vehicle->reference.speed;
+    vehicle->motor_right.value_ref = vehicle->reference.speed;
     if (vehicle->hall_front != ADC_HALL_STATE_NONE)
     {
         vehicle->last_tick_on_mag = HAL_GetTick();

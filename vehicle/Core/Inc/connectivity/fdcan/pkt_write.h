@@ -13,6 +13,6 @@ Result fdcan_pkt_write_spd_fbk(FdcanPkt *pkt);
 #ifdef MCU_VEHICLE_MAIN
 #include "vehicle/basic.h"
 
-Result fdcan_pkt_write_motor(FdcanPkt *pkt, MotorSet *motor);
+Result fdcan_pkt_write_motor(FdcanPkt *pkt, MotorParameter *motor);
 Result fdcan_vehicle_motor_send(VehicleParameter *vehicle);
 #endif
