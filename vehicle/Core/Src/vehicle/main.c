@@ -11,7 +11,7 @@ static void mode_update(VehicleParameter *vehicle)
         case VEHICLE_MODE_END:
         {
             vehicle_set_direction(vehicle, VEHICLE_MOTION_STOP);
-            vehicle_set_mode(vehicle, VEHICLE_MODE_FREE);
+            vehicle_set_mode(vehicle, VEHICLE_MODE_FREE, 0);
             break;
         }
         case VEHICLE_MODE_TRACK:
@@ -106,33 +106,33 @@ static void motor_dir_update(VehicleParameter *vehicle, VehicleDirection dict)
         }
         case VEHICLE_MOTION_FORWARD:
         {
-            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_left.rev_ref = 0;
-            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_right.rev_ref = 1;
             break;
         }
         case VEHICLE_MOTION_BACKWARD:
         {
-            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_left.rev_ref = 1;
-            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_right.rev_ref = 0;
             break;
         }
         case VEHICLE_MOTION_CLOCKWISE:
         {
-            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_left.rev_ref = 0;
-            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_right.rev_ref = 0;
             break;
         }
         case VEHICLE_MOTION_C_CLOCKWISE:
         {
-            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_left.rev_ref = 1;
-            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_NORMAL;
             vehicle->motor_right.rev_ref = 1;
             break;
         }
@@ -146,8 +146,8 @@ static void direction_update(VehicleParameter *vehicle)
     {
         case DIRECTION_NORMAL:
         {
-            motor_dir_update(vehicle, vehicle->reference.direction);
             vehicle->reference.speed = vehicle->user_set.speed;
+            motor_dir_update(vehicle, vehicle->reference.direction);
             if (vehicle->reference.direction != vehicle->user_set.direction)
             {
                 vehicle->dir_state = DIRECTION_BRAKE_TO_ZERO;
@@ -156,6 +156,7 @@ static void direction_update(VehicleParameter *vehicle)
         }
         case DIRECTION_BRAKE_TO_ZERO:
         {
+            motor_dir_update(vehicle, vehicle->reference.direction);
             uint8_t unstop = 2;
             if ((vehicle->motor_left.value_fbk < MOTOR_STOP_GATE))
             {
@@ -169,23 +170,20 @@ static void direction_update(VehicleParameter *vehicle)
             }
             else
             {
-                vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
-                vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+                vehicle->motor_left.mode_ref = CMD_WHEEL_B0_BREAK;
+                vehicle->motor_right.mode_ref = CMD_WHEEL_B0_BREAK;
                 vehicle->motor_left.value_ref = 0;
                 vehicle->motor_right.value_ref = 0;
             }
-            motor_dir_update(vehicle, vehicle->reference.direction);
             if (unstop == 0) vehicle->dir_state = DIRECTION_SWITCH_DIR;
             break;
         }
         case DIRECTION_SWITCH_DIR:
         {
-            vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
-            vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
-            vehicle->reference.direction = vehicle->user_set.direction;
-            motor_dir_update(vehicle, vehicle->reference.direction);
-            vehicle->reference.speed = vehicle->user_set.speed;
             vehicle->dir_state = DIRECTION_NORMAL;
+            vehicle->reference.direction = vehicle->user_set.direction;
+            vehicle->reference.speed = vehicle->user_set.speed;
+            motor_dir_update(vehicle, vehicle->reference.direction);
             break;
         }
     }
@@ -194,11 +192,11 @@ static void direction_update(VehicleParameter *vehicle)
 static void uss_update(VehicleParameter *vehicle)
 {
     if (
-        vehicle->us_sensor == USS_STATUS_DANGER
+        vehicle->us_sensor.state == USS_STATUS_DANGER
         && vehicle->reference.direction == VEHICLE_MOTION_FORWARD
     ) {
-        vehicle->motor_left.mode_ref = CMD_WHEEL_B0_SET_SPD;
-        vehicle->motor_right.mode_ref = CMD_WHEEL_B0_SET_SPD;
+        vehicle->motor_left.mode_ref = CMD_WHEEL_B0_NORMAL;
+        vehicle->motor_right.mode_ref = CMD_WHEEL_B0_NORMAL;
         vehicle->reference.direction = VEHICLE_MOTION_STOP;
         motor_dir_update(vehicle, vehicle->reference.direction);
         vehicle->motor_left.value_ref = 0;

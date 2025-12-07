@@ -56,22 +56,30 @@ typedef enum DirectionState
 
 typedef enum VehicleHallState
 {
+    ADC_HALL_STATE_UNK,
     ADC_HALL_STATE_NONE,
     ADC_HALL_STATE_ON_MAG,
 } VehicleHallState;
 
-typedef struct VehicleTrackP
+typedef struct VehicleHall
 {
-    uint8_t rot_need_count;
-    VehicleHallState front_last_state;
-} VehicleTrackP;
+    VehicleHallState state;
+    uint32_t alive_tick;
+} VehicleHall;
 
-typedef enum USSStatus
+typedef enum USSState
 {
+    USS_STATUS_UNK,
     USS_STATUS_SAVE,
     USS_STATUS_WARNING,
     USS_STATUS_DANGER,
-} USSStatus;
+} USSState;
+
+typedef struct VehicleUSS
+{
+    USSState state;
+    uint32_t alive_tick;
+} VehicleUSS;
 
 typedef struct MotorParameter
 {
@@ -92,12 +100,13 @@ typedef struct VehicleParameter
     VehicleMode mode;
     VehicleMotSpd user_set;
     VehicleMotSpd reference;
-    VehicleTrackP t_rotate;
+    uint8_t rot_need_count;
+    VehicleHallState front_last_state;
     DirectionState dir_state;
-    VehicleHallState hall_front;
-    VehicleHallState hall_left;
-    VehicleHallState hall_right;
-    USSStatus us_sensor;
+    VehicleHall hall_front;
+    VehicleHall hall_left;
+    VehicleHall hall_right;
+    VehicleUSS us_sensor;
     MotorParameter motor_left;
     MotorParameter motor_right;
 
@@ -110,5 +119,5 @@ extern VehicleParameter vehicle_h;
 // void vehicle_ensure_stop(VehicleParameter *vehicle, uint32_t ms);
 void vehicle_set_direction(VehicleParameter *vehicle, VehicleDirection direction);
 void vehicle_set_speed(VehicleParameter *vehicle, Percentage value);
-void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode);
+void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode, uint8_t rot_cnt);
 void vehicle_set_need_rotate(VehicleParameter *vehicle, uint8_t value);

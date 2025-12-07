@@ -11,12 +11,6 @@ VehicleParameter vehicle_h = {
         .id = CAN_ID_WHEEL_RIGHT_SET,
         .max = 200.0f,
     },
-    .motor_left = {
-        .id = CAN_ID_WHEEL_LEFT_SPD_FBK,
-    },
-    .motor_right = {
-        .id = CAN_ID_WHEEL_RIGHT_SPD_FBK,
-    },
 };
 
 void vehicle_set_direction(VehicleParameter *vehicle, VehicleDirection direction)
@@ -30,7 +24,7 @@ void vehicle_set_speed(VehicleParameter *vehicle, Percentage value)
     VAR_CLAMPF(vehicle->user_set.speed, 0, 100);
 }
 
-void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
+void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode, uint8_t rot_cnt)
 {
     switch (mode)
     {
@@ -41,9 +35,15 @@ void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
             break;
         }
         case VEHICLE_MODE_TRACK:
-        case VEHICLE_MODE_T_ROTATE:
         case VEHICLE_MODE_T_LEAVE:
         {
+            vehicle->last_tick_on_mag = HAL_GetTick();
+            vehicle->search_cnt = 0;
+            break;
+        }
+        case VEHICLE_MODE_T_ROTATE:
+        {
+            vehicle->rot_need_count = rot_cnt;
             vehicle->last_tick_on_mag = HAL_GetTick();
             vehicle->search_cnt = 0;
             break;
@@ -62,9 +62,4 @@ void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
         default: break;
     }
     vehicle->mode = mode;
-}
-
-void vehicle_set_need_rotate(VehicleParameter *vehicle, uint8_t value)
-{
-    vehicle->t_rotate.rot_need_count = value;
 }
