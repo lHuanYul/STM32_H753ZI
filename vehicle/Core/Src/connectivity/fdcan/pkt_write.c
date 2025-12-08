@@ -34,10 +34,10 @@ Result fdcan_pkt_write_spd_fbk(FdcanPkt *pkt)
 Result fdcan_pkt_write_motor(FdcanPkt *pkt, MotorParameter *motor)
 {
     if (pkt == NULL) return RESULT_ERROR(RES_ERR_MEMORY_ERROR);
-    pkt->id = motor->id;
+    pkt->id = motor->fdcan_id;
     pkt->data[0] = motor->mode_ref;
-    pkt->data[1] = motor->rev_ref;
-    var_f32_to_u8_be((float32_t)motor->value_ref * motor->max, pkt->data + 2);
+    pkt->data[1] = motor->reverse_ref;
+    var_f32_to_u8_be((float32_t)motor->value_ref * motor->rpm_max, pkt->data + 2);
     RESULT_CHECK_HANDLE(fdcan_pkt_set_len(pkt, 2 + sizeof(float32_t)));
     return RESULT_OK(pkt);
 }

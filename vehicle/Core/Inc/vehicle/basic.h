@@ -7,7 +7,6 @@
 
 typedef struct VehicleConst
 {
-
 } VehicleConst;
 
 typedef enum VehicleMode
@@ -21,7 +20,7 @@ typedef enum VehicleMode
     // 旋轉
     VEHICLE_MODE_T_ROTATE,
     // 離點(前進後循跡)
-    VEHICLE_MODE_T_LEAVE,
+    // VEHICLE_MODE_T_LEAVE,
     // 尋找
     VEHICLE_MODE_SEARCH_LEFT,
     VEHICLE_MODE_SEARCH_RIGHT,
@@ -33,26 +32,43 @@ typedef enum VehicleMode
 
 typedef enum VehicleDirection
 {
-    VEHICLE_MOTION_STOP,
-    VEHICLE_MOTION_UNKNOWN,
     VEHICLE_MOTION_FORWARD,
     VEHICLE_MOTION_BACKWARD,
     VEHICLE_MOTION_CLOCKWISE,
     VEHICLE_MOTION_C_CLOCKWISE,
 } VehicleDirection;
 
-typedef struct VehicleMotSpd
-{
-    VehicleDirection direction;
-    float32_t speed;
-} VehicleMotSpd;
-
 typedef enum DirectionState
 {
     DIRECTION_NORMAL,
-    DIRECTION_BRAKE_TO_ZERO,
-    DIRECTION_SWITCH_DIR,
+    DIRECTION_SWITCHING,
 } DirectionState;
+
+typedef struct VehicleFreeP
+{
+    VehicleDirection    direction;
+    float32_t           speed;
+} VehicleFreeP;
+
+typedef struct VehicleTrackP
+{
+    VehicleDirection    direction;
+    float32_t           speed;
+} VehicleTrackP;
+
+typedef struct VehicleRotateP
+{
+    VehicleDirection    direction;
+    float32_t           speed;
+    uint8_t             need_count;
+} VehicleRotateP;
+
+typedef struct VehicleSearchP
+{
+    VehicleDirection    direction;
+    float32_t           speed;
+    uint8_t             repeat;
+} VehicleSearchP;
 
 typedef enum VehicleHallState
 {
@@ -83,41 +99,48 @@ typedef struct VehicleUSS
 
 typedef struct MotorParameter
 {
-    const uint16_t id;
-    uint32_t alive_tick;
-    uint8_t mode_ref;
-    bool rev_ref;
-    Percentage value_ref;
-    uint8_t mode_fbk;
-    bool rev_fbk;
-    Percentage value_fbk;
-    float32_t max;
+    const uint16_t  fdcan_id;
+    float32_t       rpm_max;
+    uint32_t        alive_tick;
+    uint8_t         mode_ref;
+    bool            reverse_ref;
+    Percentage      value_ref;
+    uint8_t         mode_fbk;
+    bool            reverse_fbk;
+    Percentage      value_fbk;
 } MotorParameter;
 
 typedef struct VehicleParameter
 {
-    const VehicleConst const_h;
-    VehicleMode mode;
-    VehicleMotSpd user_set;
-    VehicleMotSpd reference;
-    uint8_t rot_need_count;
-    VehicleHallState front_last_state;
-    DirectionState dir_state;
-    VehicleHall hall_front;
-    VehicleHall hall_left;
-    VehicleHall hall_right;
-    VehicleUSS us_sensor;
-    MotorParameter motor_left;
-    MotorParameter motor_right;
-
-    uint32_t last_tick_on_mag;
-    uint8_t search_cnt;
+    const VehicleConst  const_h;
+    VehicleMode         mode;
+    DirectionState      dict_state;
+    VehicleFreeP        free;
+    VehicleTrackP       track;
+    VehicleRotateP      rotate;
+    VehicleSearchP      search;
+    VehicleDirection    dict_ref;
+    VehicleDirection    dict_fbk;
+    VehicleHallState    front_last_state;
+    VehicleHall         hall_front;
+    VehicleHall         hall_left;
+    VehicleHall         hall_right;
+    VehicleUSS          us_sensor;
+    MotorParameter      motor_left;
+    MotorParameter      motor_right;
+    uint32_t            last_tick_on_mag;
 } VehicleParameter;
 
 extern VehicleParameter vehicle_h;
 
-// void vehicle_ensure_stop(VehicleParameter *vehicle, uint32_t ms);
-void vehicle_set_direction(VehicleParameter *vehicle, VehicleDirection direction);
-void vehicle_set_speed(VehicleParameter *vehicle, Percentage value);
-void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode, uint8_t rot_cnt);
-void vehicle_set_need_rotate(VehicleParameter *vehicle, uint8_t value);
+void vehicle_motor_dir_set(VehicleParameter *vehicle, VehicleDirection dict);
+void vehicle_motor_dir_fbk(VehicleParameter *vehicle);
+void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode);
+void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd);
+void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd);
+void vehicle_set_rotate(
+    VehicleParameter *vehicle,
+    VehicleDirection dict,
+    float32_t spd,
+    uint8_t need_count
+);

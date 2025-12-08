@@ -51,9 +51,9 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
 static Result motor_pkt(FdcanPkt *pkt, MotorParameter *motor)
 {
     motor->alive_tick = HAL_GetTick();
-    if (pkt->len != 1 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+    if (pkt->len < 1 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
     motor->mode_fbk = pkt->data[0];
-    motor->rev_fbk = pkt->data[1];
+    motor->reverse_fbk = pkt->data[1];
     uint8_t spd_u8[sizeof(float32_t)];
     memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
     motor->value_fbk = var_u8_to_f32_be(spd_u8);
@@ -102,6 +102,67 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
             hall_read(pkt->data[2], &vehicle_h.hall_right);
             uss_read(pkt->data[3], &vehicle_h.us_sensor);
             return RESULT_OK(NULL);
+        }
+        case CAN_ID_VEHICLE:
+        {
+            RESULT_CHECK_RET_RES(fdcan_pkt_get_byte(pkt, 0, &code));
+            switch (code)
+            {
+                case CMD_VEHI_B0_SET_MODE:
+                {
+                    RESULT_CHECK_RET_RES(fdcan_pkt_get_byte(pkt, 1, &code));
+                    switch (code)
+                    {
+                        case CMD_VEHI_B1_MODE_FREE:
+                        {
+                            vehicle_set_mode(&vehicle_h, VEHICLE_MODE_FREE);
+                            return RESULT_OK(NULL);
+                        }
+                        case CMD_VEHI_B1_MODE_TRACK:
+                        {
+                            vehicle_set_mode(&vehicle_h, VEHICLE_MODE_TRACK);
+                            return RESULT_OK(NULL);
+                        }
+                        case CMD_VEHI_B1_MODE_ROTATE:
+                        {
+                            vehicle_set_mode(&vehicle_h, VEHICLE_MODE_T_ROTATE);
+                            return RESULT_OK(NULL);
+                        }
+                        case CMD_VEHI_B1_MODE_SEARCH:
+                        {
+                            vehicle_set_mode(&vehicle_h, VEHICLE_MODE_SEARCH_LEFT);
+                            return RESULT_OK(NULL);
+                        }
+                        default: break;
+                    }
+                    break;
+                }
+                case CMD_VEHI_B0_SET_FREE_VAR:
+                {
+                    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    uint8_t spd_u8[sizeof(float32_t)];
+                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
+                    vehicle_set_free(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8));
+                    return RESULT_OK(NULL);
+                }
+                case CMD_VEHI_B0_SET_TRACK_VAR:
+                {
+                    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    uint8_t spd_u8[sizeof(float32_t)];
+                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
+                    vehicle_set_track(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8));
+                    return RESULT_OK(NULL);
+                }
+                case CMD_VEHI_B0_SET_ROTATE_VAR:
+                {
+                    if (pkt->len < 2 + sizeof(float32_t) + 1) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    uint8_t spd_u8[sizeof(float32_t)];
+                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
+                    vehicle_set_rotate(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8), pkt->data[6]);
+                    return RESULT_OK(NULL);
+                }
+                default: break;
+            }
         }
         default: break;
     }

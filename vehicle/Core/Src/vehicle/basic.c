@@ -3,58 +3,110 @@
 #include "connectivity/fdcan/pkt_write.h"
 
 VehicleParameter vehicle_h = {
+    .search = {
+        .speed = 20.0f,
+    },
     .motor_left = {
-        .id = CAN_ID_WHEEL_LEFT_SET,
-        .max = 200.0f,
+        .fdcan_id = CAN_ID_WHEEL_LEFT_SET,
+        .rpm_max = 200.0f,
     },
     .motor_right = {
-        .id = CAN_ID_WHEEL_RIGHT_SET,
-        .max = 200.0f,
+        .fdcan_id = CAN_ID_WHEEL_RIGHT_SET,
+        .rpm_max = 200.0f,
     },
 };
 
-void vehicle_set_direction(VehicleParameter *vehicle, VehicleDirection direction)
+void vehicle_motor_dir_set(VehicleParameter *vehicle, VehicleDirection dict)
 {
-    vehicle->user_set.direction = direction;
+    switch (dict)
+    {
+        case VEHICLE_MOTION_FORWARD:
+        {
+            vehicle->motor_left.reverse_ref = 1;
+            vehicle->motor_right.reverse_ref = 0;
+            break;
+        }
+        case VEHICLE_MOTION_BACKWARD:
+        {
+            vehicle->motor_left.reverse_ref = 0;
+            vehicle->motor_right.reverse_ref = 1;
+            break;
+        }
+        case VEHICLE_MOTION_CLOCKWISE:
+        {
+            vehicle->motor_left.reverse_ref = 1;
+            vehicle->motor_right.reverse_ref = 1;
+            break;
+        }
+        case VEHICLE_MOTION_C_CLOCKWISE:
+        {
+            vehicle->motor_left.reverse_ref = 0;
+            vehicle->motor_right.reverse_ref = 0;
+            break;
+        }
+    }
 }
 
-void vehicle_set_speed(VehicleParameter *vehicle, Percentage value)
+void vehicle_motor_dir_fbk(VehicleParameter *vehicle)
 {
-    vehicle->user_set.speed = value;
-    VAR_CLAMPF(vehicle->user_set.speed, 0, 100);
+    uint8_t temp = 0;
+    if (vehicle->motor_left.reverse_fbk) temp |= (1 << 1);
+    if (vehicle->motor_right.reverse_fbk) temp |= (1 << 0);
+    switch (temp)
+    {
+        case 0b00000010:
+        {
+            vehicle->dict_fbk = VEHICLE_MOTION_FORWARD;
+            break;
+        }
+        case 0b00000001:
+        {
+            vehicle->dict_fbk = VEHICLE_MOTION_BACKWARD;
+            break;
+        }
+        case 0b00000011:
+        {
+            vehicle->dict_fbk = VEHICLE_MOTION_CLOCKWISE;
+            break;
+        }
+        case 0b00000000:
+        {
+            vehicle->dict_fbk = VEHICLE_MOTION_C_CLOCKWISE;
+            break;
+        }
+    }
 }
 
-void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode, uint8_t rot_cnt)
+void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
 {
     switch (mode)
     {
         case VEHICLE_MODE_END:
         case VEHICLE_MODE_FREE:
         {
-            vehicle->search_cnt = 0;
+            vehicle->search.repeat = 0;
             break;
         }
         case VEHICLE_MODE_TRACK:
-        case VEHICLE_MODE_T_LEAVE:
+        // case VEHICLE_MODE_T_LEAVE:
         {
             vehicle->last_tick_on_mag = HAL_GetTick();
-            vehicle->search_cnt = 0;
+            vehicle->search.repeat = 0;
             break;
         }
         case VEHICLE_MODE_T_ROTATE:
         {
-            vehicle->rot_need_count = rot_cnt;
             vehicle->last_tick_on_mag = HAL_GetTick();
-            vehicle->search_cnt = 0;
+            vehicle->search.repeat = 0;
             break;
         }
         case VEHICLE_MODE_SEARCH_LEFT:
         {
             vehicle->last_tick_on_mag = HAL_GetTick();
-            vehicle->search_cnt++;
-            if (vehicle->search_cnt >= 3)
+            vehicle->search.repeat++;
+            if (vehicle->search.repeat >= 3)
             {
-                vehicle->search_cnt = 0;
+                vehicle->search.repeat = 0;
                 mode = VEHICLE_MODE_END;
             }
             break;
@@ -62,4 +114,27 @@ void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode, uint8_t rot_c
         default: break;
     }
     vehicle->mode = mode;
+}
+
+void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd)
+{
+    vehicle->free.direction = dict;
+    vehicle->free.speed = spd;
+}
+
+void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd)
+{
+    vehicle->track.direction = dict;
+    vehicle->track.speed = spd;
+}
+
+void vehicle_set_rotate(
+    VehicleParameter *vehicle,
+    VehicleDirection dict,
+    float32_t spd,
+    uint8_t need_count
+) {
+    vehicle->rotate.direction = dict;
+    vehicle->rotate.speed = spd;
+    vehicle->rotate.need_count = need_count;
 }
