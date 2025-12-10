@@ -11,10 +11,10 @@ typedef struct VehicleConst
 
 typedef enum VehicleMode
 {
-    // 停止
-    VEHICLE_MODE_END,
     // 自由
     VEHICLE_MODE_FREE,
+    // 停止
+    VEHICLE_MODE_END,
     // 循跡
     VEHICLE_MODE_TRACK,
     // 旋轉

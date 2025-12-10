@@ -106,15 +106,12 @@ static void mode_update(VehicleParameter *vehicle)
 // motor break & reverse update
 static void direction_update(VehicleParameter *vehicle)
 {
-    VehicleDirection dict_set = vehicle->dict_ref;
     switch (vehicle->dict_state)
     {
         case DIRECTION_NORMAL:
         {
             if (vehicle->dict_ref == vehicle->dict_fbk) break;
-            {
-                vehicle->dict_state = DIRECTION_SWITCHING;
-            }
+            vehicle->dict_state = DIRECTION_SWITCHING;
         }
         case DIRECTION_SWITCHING:
         {
@@ -134,13 +131,13 @@ static void direction_update(VehicleParameter *vehicle)
                 vehicle->dict_state = DIRECTION_NORMAL;
                 break;
             }
-            dict_set = vehicle->dict_fbk;
+            vehicle->dict_ref = vehicle->dict_fbk;
             vehicle->motor_left.mode_ref = CMD_WHEEL_B0_BREAK;
             vehicle->motor_right.mode_ref = CMD_WHEEL_B0_BREAK;
             break;
         }
     }
-    vehicle_motor_dir_set(vehicle, dict_set);
+    vehicle_motor_dir_set(vehicle, vehicle->dict_ref);
 }
 
 // emergency stop
@@ -155,9 +152,11 @@ static void uss_update(VehicleParameter *vehicle)
     }
 }
 
-bool vehicle_ready = false;
+#define VEHICLE_TASK_DELAY_MS 10
 void StartVehicleTask(void *argument)
 {
+    const uint32_t osPeriod = pdMS_TO_TICKS(VEHICLE_TASK_DELAY_MS);
+    uint32_t next_wake = osKernelGetTickCount() + osPeriod;
     VehicleParameter *vehicle = &vehicle_h;
     for(;;)
     {
@@ -167,9 +166,9 @@ void StartVehicleTask(void *argument)
 
         uss_update(vehicle);
 
-        fdcan_vehicle_motor_send(vehicle);
+        if (vehicle->mode != VEHICLE_MODE_FREE) fdcan_vehicle_motor_send(vehicle);
 
-        osDelay(10);
-        vehicle_ready = true;
+        osDelayUntil(next_wake);
+        next_wake += osPeriod;
     }
 }
