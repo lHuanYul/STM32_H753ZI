@@ -42,6 +42,11 @@ static Result recv_pkts_proc(uint8_t count)
 static Result auto_pkt_proc(void)
 {
     Result result = RESULT_OK(NULL);
+    if (vehicle_h.fdcan_send)
+    {
+        vehicle_h.fdcan_send = 0;
+        fdcan_vehicle_motor_send(&vehicle_h);
+    }
     if (fdacn_data_store == FNC_ENABLE)
     {
         FdcanPkt *pkt;
@@ -69,8 +74,8 @@ void StartFdCanTask(void *argument)
         .FilterIndex = 0,
         .FilterType = FDCAN_FILTER_RANGE,
         .FilterConfig = FDCAN_FILTER_TO_RXFIFO0,
-        .FilterID1 = FDCAN_FILTER0_ID_MIN,
-        .FilterID2 = FDCAN_FILTER0_ID_MAX,
+        .FilterID1 = FDCAN_FIFO0_FILTER0_ID_MIN,
+        .FilterID2 = FDCAN_FIFO0_FILTER0_ID_MAX,
     };
     ERROR_CHECK_HAL_HANDLE(HAL_FDCAN_ConfigFilter(&hfdcan1, &fifo0_filter0));
     FDCAN_FilterTypeDef fifo1_filter0 = {
@@ -80,8 +85,8 @@ void StartFdCanTask(void *argument)
         .FilterConfig = FDCAN_FILTER_TO_RXFIFO1,
         .FilterID1 = 0x000,
         .FilterID2 = 0x7FF,
-        // .FilterID1 = FDCAN_FILTER1_ID_MIN,
-        // .FilterID2 = FDCAN_FILTER1_ID_MAX,
+        // .FilterID1 = FDCAN_FIFO1_FILTER0_ID_MIN,
+        // .FilterID2 = FDCAN_FIFO1_FILTER0_ID_MAX,
     };
     ERROR_CHECK_HAL_HANDLE(HAL_FDCAN_ConfigFilter(&hfdcan1, &fifo1_filter0));
     ERROR_CHECK_HAL_HANDLE(HAL_FDCAN_Start(&hfdcan1));
@@ -113,6 +118,7 @@ void StartFdCanTask(void *argument)
             HAL_FDCAN_Stop(&hfdcan1);
             HAL_FDCAN_Start(&hfdcan1);
         }
+        auto_pkt_proc();
         trsm_pkts_proc();
         if (fdcan_tick % 10 == 0)
         {
@@ -121,7 +127,7 @@ void StartFdCanTask(void *argument)
         if (fdcan_tick % 20 == 0)
         {
             fdcan_tick = 0;
-            if (fdacn_data_store == FNC_ENABLE) auto_pkt_proc();
+            if (fdacn_data_store == FNC_ENABLE);
         }
         osDelayUntil(next_wake);
         next_wake += osPeriod;

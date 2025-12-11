@@ -9,6 +9,7 @@ static void mode_update(VehicleParameter *vehicle)
 {
     switch (vehicle->mode)
     {
+        case VEHICLE_MODE_UNK: break;
         case VEHICLE_MODE_END:
         {
             vehicle->motor_left.mode_ref = CMD_WHEEL_B0_BREAK;
@@ -153,10 +154,11 @@ static void uss_update(VehicleParameter *vehicle)
 }
 
 #define VEHICLE_TASK_DELAY_MS 10
+uint32_t veh_next_wake;
 void StartVehicleTask(void *argument)
 {
     const uint32_t osPeriod = pdMS_TO_TICKS(VEHICLE_TASK_DELAY_MS);
-    uint32_t next_wake = osKernelGetTickCount() + osPeriod;
+    veh_next_wake = osKernelGetTickCount() + osPeriod;
     VehicleParameter *vehicle = &vehicle_h;
     for(;;)
     {
@@ -166,9 +168,12 @@ void StartVehicleTask(void *argument)
 
         uss_update(vehicle);
 
-        if (vehicle->mode != VEHICLE_MODE_FREE) fdcan_vehicle_motor_send(vehicle);
+        if (
+            vehicle->fdcan_enable &&
+            vehicle->mode != VEHICLE_MODE_UNK
+        ) vehicle->fdcan_send = 1;
 
-        osDelayUntil(next_wake);
-        next_wake += osPeriod;
+        osDelayUntil(veh_next_wake);
+        veh_next_wake += osPeriod;
     }
 }

@@ -30,6 +30,11 @@
 #define STM32_H753ZI
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 #define MCU_VEHICLE_MAIN
+#include "connectivity/cmds.h"
+#define FDCAN_FIFO0_FILTER0_ID_MIN  0x108
+#define FDCAN_FIFO0_FILTER0_ID_MAX  0x10F
+#define FDCAN_FIFO1_FILTER0_ID_MIN  0x100
+#define FDCAN_FIFO1_FILTER0_ID_MAX  0x107
 
 #define TIM3_PSC        1700
 #define TIM3_ARR        2000

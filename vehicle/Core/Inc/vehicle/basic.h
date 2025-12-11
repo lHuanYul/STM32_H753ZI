@@ -7,10 +7,12 @@
 
 typedef struct VehicleConst
 {
+    bool t;
 } VehicleConst;
 
 typedef enum VehicleMode
 {
+    VEHICLE_MODE_UNK,
     // 自由
     VEHICLE_MODE_FREE,
     // 停止
@@ -47,26 +49,26 @@ typedef enum DirectionState
 typedef struct VehicleFreeP
 {
     VehicleDirection    direction;
-    float32_t           speed;
+    Percentage          speed;
 } VehicleFreeP;
 
 typedef struct VehicleTrackP
 {
     VehicleDirection    direction;
-    float32_t           speed;
+    Percentage          speed;
 } VehicleTrackP;
 
 typedef struct VehicleRotateP
 {
     VehicleDirection    direction;
-    float32_t           speed;
+    Percentage          speed;
     uint8_t             need_count;
 } VehicleRotateP;
 
 typedef struct VehicleSearchP
 {
     VehicleDirection    direction;
-    float32_t           speed;
+    Percentage          speed;
     uint8_t             repeat;
 } VehicleSearchP;
 
@@ -107,13 +109,15 @@ typedef struct MotorParameter
     Percentage      value_ref;
     uint8_t         mode_fbk;
     bool            reverse_fbk;
-    Percentage      value_fbk;
+    float32_t       value_fbk;
 } MotorParameter;
 
 typedef struct VehicleParameter
 {
     const VehicleConst  const_h;
     VehicleMode         mode;
+    bool                fdcan_enable;
+    bool                fdcan_send;
     DirectionState      dict_state;
     VehicleFreeP        free;
     VehicleTrackP       track;
@@ -136,11 +140,11 @@ extern VehicleParameter vehicle_h;
 void vehicle_motor_dir_set(VehicleParameter *vehicle, VehicleDirection dict);
 void vehicle_motor_dir_fbk(VehicleParameter *vehicle);
 void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode);
-void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd);
-void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd);
+void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
+void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
 void vehicle_set_rotate(
     VehicleParameter *vehicle,
     VehicleDirection dict,
-    float32_t spd,
+    Percentage spd,
     uint8_t need_count
 );

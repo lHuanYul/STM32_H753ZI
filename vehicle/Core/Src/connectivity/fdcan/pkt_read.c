@@ -51,7 +51,7 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
 static Result motor_pkt(FdcanPkt *pkt, MotorParameter *motor)
 {
     motor->alive_tick = HAL_GetTick();
-    if (pkt->len < 1 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
     motor->mode_fbk = pkt->data[0];
     motor->reverse_fbk = pkt->data[1];
     uint8_t spd_u8[sizeof(float32_t)];
@@ -139,26 +139,27 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
                 }
                 case CMD_VEHI_B0_SET_FREE_VAR:
                 {
-                    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    uint8_t spd_u8[sizeof(float32_t)];
-                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
-                    vehicle_set_free(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8));
+                    if (pkt->len < 3) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    vehicle_set_free(&vehicle_h, pkt->data[1], pkt->data[2]);
                     return RESULT_OK(NULL);
                 }
                 case CMD_VEHI_B0_SET_TRACK_VAR:
                 {
-                    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    uint8_t spd_u8[sizeof(float32_t)];
-                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
-                    vehicle_set_track(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8));
+                    if (pkt->len < 3) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    vehicle_set_track(&vehicle_h, pkt->data[1], pkt->data[2]);
                     return RESULT_OK(NULL);
                 }
                 case CMD_VEHI_B0_SET_ROTATE_VAR:
                 {
-                    if (pkt->len < 2 + sizeof(float32_t) + 1) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    uint8_t spd_u8[sizeof(float32_t)];
-                    memcpy(spd_u8, pkt->data + 2, sizeof(float32_t));
-                    vehicle_set_rotate(&vehicle_h, pkt->data[1], var_u8_to_f32_be(spd_u8), pkt->data[6]);
+                    if (pkt->len < 4) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+                    vehicle_set_rotate(&vehicle_h, pkt->data[1], pkt->data[2], pkt->data[3]);
+                    return RESULT_OK(NULL);
+                }
+                case CMD_VEHI_B0_FDCAN:
+                {
+                    RESULT_CHECK_RET_RES(fdcan_pkt_get_byte(pkt, 1, &code));
+                    if (code == 0) vehicle_h.fdcan_enable = 0;
+                    else vehicle_h.fdcan_enable = 1;
                     return RESULT_OK(NULL);
                 }
                 default: break;

@@ -37,7 +37,9 @@ Result fdcan_pkt_write_motor(FdcanPkt *pkt, MotorParameter *motor)
     pkt->id = motor->fdcan_id;
     pkt->data[0] = motor->mode_ref;
     pkt->data[1] = motor->reverse_ref;
-    var_f32_to_u8_be((float32_t)motor->value_ref * motor->rpm_max, pkt->data + 2);
+    float32_t spd = (float32_t)motor->value_ref * motor->rpm_max * 0.01f;
+    VAR_CLAMPF(spd, 0.0f, motor->rpm_max);
+    var_f32_to_u8_be(spd, pkt->data + 2);
     RESULT_CHECK_HANDLE(fdcan_pkt_set_len(pkt, 2 + sizeof(float32_t)));
     return RESULT_OK(pkt);
 }

@@ -3,16 +3,20 @@
 #include "connectivity/fdcan/pkt_write.h"
 
 VehicleParameter vehicle_h = {
+    .free = {
+        .direction = VEHICLE_MOTION_FORWARD,
+        .speed = 50.0f,
+    },
     .search = {
-        .speed = 20.0f,
+        .speed = 25.0f,
     },
     .motor_left = {
         .fdcan_id = CAN_ID_WHEEL_LEFT_SET,
-        .rpm_max = 200.0f,
+        .rpm_max = 1000.0f,
     },
     .motor_right = {
         .fdcan_id = CAN_ID_WHEEL_RIGHT_SET,
-        .rpm_max = 200.0f,
+        .rpm_max = 1000.0f,
     },
 };
 
@@ -116,13 +120,13 @@ void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
     vehicle->mode = mode;
 }
 
-void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd)
+void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
 {
     vehicle->free.direction = dict;
     vehicle->free.speed = spd;
 }
 
-void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, float32_t spd)
+void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
 {
     vehicle->track.direction = dict;
     vehicle->track.speed = spd;
@@ -131,7 +135,7 @@ void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, float32
 void vehicle_set_rotate(
     VehicleParameter *vehicle,
     VehicleDirection dict,
-    float32_t spd,
+    Percentage spd,
     uint8_t need_count
 ) {
     vehicle->rotate.direction = dict;

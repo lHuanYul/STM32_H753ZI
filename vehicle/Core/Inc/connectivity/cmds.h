@@ -34,6 +34,7 @@
 #define CMD_WHEEL_B0_BREAK          (uint8_t)0x01
 #define CMD_WHEEL_B0_NORMAL         (uint8_t)0x02
 #define CMD_WHEEL_B0_LOCK           (uint8_t)0x03
+#define CMD_WHEEL_B0_FDCAN          (uint8_t)0xFF
 #define CMD_WHEEL_B1_REVERSE
 #define CMD_WHEEL_B25_SPD
 
@@ -52,11 +53,12 @@
 #define CMD_RFID_B14_ID
 
 //----------------------------------------------------------------------------------------------------
-#define CAN_ID_VEHICLE              (uint16_t)0x120
+#define CAN_ID_VEHICLE              (uint16_t)0x107
 #define CMD_VEHI_B0_SET_MODE        (uint8_t)0x00
 #define CMD_VEHI_B0_SET_FREE_VAR    (uint8_t)0x01
 #define CMD_VEHI_B0_SET_TRACK_VAR   (uint8_t)0x02
 #define CMD_VEHI_B0_SET_ROTATE_VAR  (uint8_t)0x03
+#define CMD_VEHI_B0_FDCAN           (uint8_t)0xFF
 #define CMD_VEHI_B1_MODE_FREE       (uint8_t)0x00
 #define CMD_VEHI_B1_MODE_TRACK      (uint8_t)0x01
 #define CMD_VEHI_B1_MODE_ROTATE     (uint8_t)0x02
