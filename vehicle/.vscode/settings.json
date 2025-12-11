@@ -97,6 +97,8 @@
     "stm32h7xx_hal_fdcan.h": "c",
     "pkt_read.h": "c",
     "cstdlib": "c",
-    "track.h": "c"
+    "track.h": "c",
+    "base.h": "c",
+    "variable.h": "c"
   }
 }

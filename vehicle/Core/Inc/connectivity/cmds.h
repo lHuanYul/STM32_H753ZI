@@ -40,17 +40,18 @@
 
 //----------------------------------------------------------------------------------------------------
 
-#define CAN_ID_HALL_ALL             (uint16_t)0x110
+#define CAN_ID_HALL_ALL_FBK             (uint16_t)0x104
 #define CMD_HALL_B0_FRONT
 #define CMD_HALL_B1_LEFT
 #define CMD_HALL_B2_RIGHT
 // #define CMD_HALL_B3_BATTRY
 
 //----------------------------------------------------------------------------------------------------
-
-#define CAN_ID_RFID                 (uint16_t)0x111
+#define CAN_ID_RFID_FBK                 (uint16_t)0x105
 #define CMD_RFID_B0_NEW
 #define CMD_RFID_B14_ID
+
+#define CAN_ID_SENSOR
 
 //----------------------------------------------------------------------------------------------------
 #define CAN_ID_VEHICLE              (uint16_t)0x107

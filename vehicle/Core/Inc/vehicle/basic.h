@@ -81,8 +81,8 @@ typedef enum VehicleHallState
 
 typedef struct VehicleHall
 {
-    VehicleHallState state;
-    uint32_t alive_tick;
+    VehicleHallState    state;
+    uint32_t            alive_tick;
 } VehicleHall;
 
 typedef enum USSState
@@ -95,9 +95,16 @@ typedef enum USSState
 
 typedef struct VehicleUSS
 {
-    USSState state;
-    uint32_t alive_tick;
+    USSState    state;
+    uint32_t    alive_tick;
 } VehicleUSS;
+
+typedef struct VehicleRfid
+{
+    bool        new;
+    uint32_t    rfid;
+    uint32_t    alive_tick;
+} VehicleRfid;
 
 typedef struct MotorParameter
 {
@@ -130,6 +137,7 @@ typedef struct VehicleParameter
     VehicleHall         hall_left;
     VehicleHall         hall_right;
     VehicleUSS          us_sensor;
+    VehicleRfid         rfid;
     MotorParameter      motor_left;
     MotorParameter      motor_right;
     uint32_t            last_tick_on_mag;

@@ -1,0 +1,88 @@
+#pragma once
+
+#include "main/fn_state.h"
+#include "vehicle/basic.h"
+#include <stdbool.h>
+#include <stdio.h>
+
+#define INF 99999
+#define MAX_NODE 10
+#define NO_DATA 0xFF
+#define TIME_INIT 500
+
+#define ENABLE      1
+#define DISENABLE   0
+
+// 三個速度不可相同
+#define MAP_SETPOINT_TRACK     20   // 循跡速度目標
+#define MAP_SETPOINT_ROTATE    19   // 原地旋轉速度目標
+#define MAP_SETPOINT_FALL_BACK 18   // 倒退速度目標
+#define MAP_SETPOINT_STOP      0    // 倒退速度目標
+
+#define MAX_DBG_LOG 10
+
+
+typedef uint32_t   MapIdF;
+typedef uint8_t    MapDirF;
+typedef uint8_t    MapCountF;
+typedef uint16_t   MapDisF;
+
+typedef struct Connection{
+    MapIdF  id;
+    MapDisF distance;
+} Connection;
+
+typedef struct Location{
+    MapIdF     local_id;
+    Connection connect[8];
+} Location;
+
+typedef struct MapDataNode{
+    MapIdF        address_id;
+    MapDirF       direction;
+    VehicleDirection vehicle_motion;
+    MapCountF     need_rotate_count;
+    VehicleMode   mode;
+    Percentage    speed_setpoint;
+    bool          end_flag;
+} MapDataNode;
+
+typedef struct MapDataAll{
+    MapCountF   current_count;
+    MapDataNode map_node[MAX_NODE];
+} MapDataAll;
+
+typedef struct MapError{
+    Result lose_navigation;
+    Result no_path;
+    Result input_start_id_err;
+} MapError;
+
+typedef struct Debug{
+    uint8_t log[MAX_DBG_LOG];
+    uint8_t map_main_count;
+} Debug;
+
+
+
+extern MapError map_error;
+
+extern uint8_t final_node_count;
+
+extern int graph[MAX_NODE][MAX_NODE];
+extern int path[MAX_NODE][MAX_NODE];
+
+extern bool map_enable;
+
+extern MapDataAll map_data_all;
+extern MapDataNode agv_state;
+
+extern MapDataNode map_data_init;
+extern MapDataNode map_data_start;
+
+extern Debug dbg;
+
+
+extern Location locations_t[MAX_NODE];
+
+extern const Location locations_t_inner[MAX_NODE];
