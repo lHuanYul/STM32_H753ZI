@@ -7,7 +7,7 @@
 void map_trans (const MapDataNode*);
 void floyd_warshall (void);
 VehicleMode decide_map_mode_and_speed(uint8_t, MapDirF);
-VehicleMotion decide_map_vehicle_motion(MapDirF, MapDirF);
+VehicleDirection decide_map_vehicle_motion(MapDirF, MapDirF);
 void map_data_renew_direction_and_address (
     MapDataNode*,
     MapIdF,

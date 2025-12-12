@@ -5,7 +5,6 @@
 #include "map_new/manager.h"
 #include "map_new/work_space.h"
 #include "map_new/window.h"
-#include "adc.h"
 
 static uint32_t tick_time = 0;
 static uint32_t now;
