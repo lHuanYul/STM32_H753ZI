@@ -160,19 +160,19 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
                 case CMD_VEHI_B0_SET_FREE_VAR:
                 {
                     if (pkt->len < 3) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    vehicle_set_free(&vehicle_h, pkt->data[1], pkt->data[2]);
+                    vehicle_set_var_free(&vehicle_h, pkt->data[1], pkt->data[2]);
                     return RESULT_OK(NULL);
                 }
                 case CMD_VEHI_B0_SET_TRACK_VAR:
                 {
                     if (pkt->len < 3) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    vehicle_set_track(&vehicle_h, pkt->data[1], pkt->data[2]);
+                    vehicle_set_var_track(&vehicle_h, pkt->data[1], pkt->data[2]);
                     return RESULT_OK(NULL);
                 }
                 case CMD_VEHI_B0_SET_ROTATE_VAR:
                 {
                     if (pkt->len < 4) return RESULT_ERROR(RES_ERR_NOT_FOUND);
-                    vehicle_set_rotate(&vehicle_h, pkt->data[1], pkt->data[2], pkt->data[3]);
+                    vehicle_set_var_rotate(&vehicle_h, pkt->data[1], pkt->data[2], pkt->data[3]);
                     return RESULT_OK(NULL);
                 }
                 case CMD_VEHI_B0_FDCAN:

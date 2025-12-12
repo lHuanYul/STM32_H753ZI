@@ -20,7 +20,7 @@ MapDataNode map_data_init = {
     .address_id         = NO_DATA,
     .direction          = NO_DATA,
     .need_rotate_count  = NO_DATA,
-    .vehicle_motion     = VEHICLE_MOTION_STOP,
+    .vehicle_motion     = VEHICLE_MOTION_FORWARD, // VEHICLE_MOTION_STOP
     .mode               = VEHICLE_MODE_FREE,
     .speed_setpoint     = 0,
     .end_flag           = DISABLE,
@@ -30,7 +30,7 @@ MapDataNode map_data_start = {
     .address_id         = NO_DATA,
     .direction          = NO_DATA,
     .need_rotate_count  = NO_DATA,
-    .vehicle_motion     = VEHICLE_MOTION_STOP,
+    .vehicle_motion     = VEHICLE_MOTION_FORWARD,
     .mode               = VEHICLE_MODE_T_ROTATE,
     .speed_setpoint     = MAP_SETPOINT_ROTATE,
     .end_flag           = DISABLE,
@@ -48,17 +48,17 @@ Debug dbg = {
 //3 3623155971 -> 45 249 244 3
 Location locations_t[MAX_NODE];
 
-const Location locations_t_inner[MAX_NODE] = {
-    {1505360132,   { {858788143,10},     {0,0},      {0,0},    {0,0},      {0,0},      {0,0},      {0,0},      {0,0}       } },
-    {858788143,    { {0,0},     {0,0},      {0,0},    {0,0},      {1505360132,10},      {0,0},      {0,0},      {0,0}       } },
-};
-
 // const Location locations_t_inner[MAX_NODE] = {
-//     {1505360132,   { {858788143,80},     {592978984,100},      {0,0},    {0,0},      {0,0},      {0,0},      {0,0},      {0,0}       } },
-//     {858788143,    { {3623155971,20},     {0,0},      {592978984,30},    {0,0},      {1505360132,80},      {0,0},      {0,0},      {0,0}       } },
-//     {592978984,    { {0,0},     {0,0},      {0,0},    {0,0},      {0,0},      {1505360132,100},      {858788143,30},      {3623155971,20}       } },
-//     {3623155971,   { {0,0},     {0,0},      {0,0},    {592978984,20},      {858788143,20},      {0,0},      {0,0},      {0,0}       } }
+//     {1505360132,   { {858788143,10},     {0,0},      {0,0},    {0,0},      {0,0},      {0,0},      {0,0},      {0,0}       } },
+//     {858788143,    { {0,0},     {0,0},      {0,0},    {0,0},      {1505360132,10},      {0,0},      {0,0},      {0,0}       } },
 // };
+
+const Location locations_t_inner[MAX_NODE] = {
+    {1505360132,   { {858788143,80},     {592978984,100},      {0,0},    {0,0},      {0,0},      {0,0},      {0,0},      {0,0}       } },
+    {858788143,    { {3623155971,20},     {0,0},      {592978984,30},    {0,0},      {1505360132,80},      {0,0},      {0,0},      {0,0}       } },
+    {592978984,    { {0,0},     {0,0},      {0,0},    {0,0},      {0,0},      {1505360132,100},      {858788143,30},      {3623155971,20}       } },
+    {3623155971,   { {0,0},     {0,0},      {0,0},    {592978984,20},      {858788143,20},      {0,0},      {0,0},      {0,0}       } }
+};
 
 // const Location locations_t_inner[MAX_NODE] = {
 //     {1,    { {0,0},     {0,0},      {2,85},    {4,30},      {3,50},      {0,0},      {0,0},      {0,0}       } },

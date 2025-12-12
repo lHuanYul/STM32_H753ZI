@@ -3,21 +3,39 @@
 #include "connectivity/fdcan/main.h"
 #include "connectivity/fdcan/pkt_write.h"
 
+static VehicleParameter *vehicle = &vehicle_h;
+
 MapDataNode text_trans;
 void map_trans (const MapDataNode* trans_map)
 {
     // dbg.log[6]++;
     // FdcanPkt *pkt;
     // text_trans = *trans_map;
-    // pkt = RESULT_UNWRAP_HANDLE(fdcan_pkt_pool_alloc());
-    // RESULT_CHECK_HANDLE(pkt_vehi_set_speed(pkt, trans_map->speed_setpoint));
-    // RESULT_CHECK_HANDLE(fdcan_pkt_buf_push(&fdcan_trsm_pkt_buf, pkt));
-    // pkt = RESULT_UNWRAP_HANDLE(fdcan_pkt_pool_alloc());
-    // RESULT_CHECK_HANDLE(pkt_vehi_set_motion(pkt, trans_map->vehicle_motion));
-    // RESULT_CHECK_HANDLE(fdcan_pkt_buf_push(&fdcan_trsm_pkt_buf, pkt));
-    // pkt = RESULT_UNWRAP_HANDLE(fdcan_pkt_pool_alloc());
-    // RESULT_CHECK_HANDLE(pkt_vehi_set_mode(pkt, trans_map->mode, trans_map->need_rotate_count));
-    // RESULT_CHECK_HANDLE(fdcan_pkt_buf_push(&fdcan_trsm_pkt_buf, pkt));
+
+    vehicle_set_mode(vehicle, trans_map->mode);
+
+    switch (trans_map->mode)
+    {
+        case VEHICLE_MODE_TRACK:
+        {
+            vehicle_set_var_track(vehicle, VEHICLE_MOTION_FORWARD, vehicle_h.track.speed);
+            break;
+        }
+        case VEHICLE_MODE_T_ROTATE:
+        {
+            vehicle_set_var_rotate(
+                vehicle,
+                trans_map->vehicle_motion,
+                vehicle_h.rotate.speed,
+                trans_map->need_rotate_count
+            );
+            break;
+        }
+        
+        default: break;
+    }
+    
+    
 }
 
 // Floyd-Warshall 演算法計算所有節點對間最短路徑

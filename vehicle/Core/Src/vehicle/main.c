@@ -53,7 +53,7 @@ static void mode_update(VehicleParameter *vehicle)
                 VEHICLE_MOTION_CLOCKWISE,
                 VEHICLE_MODE_SEARCH_R_RET,
                 VEHICLE_MODE_END,
-                2000
+                4000
             );
             break;
         }
@@ -163,6 +163,7 @@ void StartVehicleTask(void *argument)
     for(;;)
     {
         vehicle_motor_dir_fbk(vehicle);
+
         mode_update(vehicle);
         direction_update(vehicle);
 

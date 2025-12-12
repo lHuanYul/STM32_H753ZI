@@ -9,50 +9,35 @@
 static uint32_t tick_time = 0;
 static uint32_t now;
 static bool map_toggle = false;
-uint32_t text_id[7] = {};
-// uint16_t adc_raw = 0;
+uint32_t text_id[7] = {0};
 size_t defalt_running = 0;
 void StartDefaultTask(void *argument)
 {
     // osThreadExit();
-    // return;
 
     memcpy(locations_t, locations_t_inner, sizeof(locations_t));
     work_space_set();
     map_set();
 
     // text
-    map_window_init_work(locations_t[1].local_id, 4);
+    map_window_init_work(locations_t[0].local_id, 0);
+    map_window_add_work(locations_t[3].local_id);
+        
+    
+    // map_window_init_work(locations_t[1].local_id, 4);
     // map_window_add_work(locations_t[3].local_id);
-    map_window_add_work(locations_t[0].local_id);
-    map_window_add_work(locations_t[1].local_id);
-    map_window_add_work(locations_t[0].local_id);
-    map_window_add_work(locations_t[1].local_id);
-    map_window_add_work(locations_t[0].local_id);
-    map_window_add_work(locations_t[1].local_id);
     // map_window_add_work(locations_t[2].local_id);
 
     // map_window_init_work(locations_t[3].local_id, 0);
     // map_window_add_work(locations_t[1].local_id);
 
     map_window_start_work();
-
-    // HAL_ADCEx_Calibration_Start(&hadc1, ADC_SINGLE_ENDED);
-    // HAL_ADC_Start(&hadc1);
-    // adc_raw = 1;
-
     // text
 
     for(;;)
     {
         tick_time++;
         now = HAL_GetTick();
-        // if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
-        // {
-        //     defalt_running++;
-        //     adc_raw = HAL_ADC_GetValue(&hadc1);
-        //     // 每完成一筆，就會進來一次
-        // }
 
         // map toggle
         if (vehicle_h.rfid.new && !map_toggle)

@@ -148,9 +148,9 @@ extern VehicleParameter vehicle_h;
 void vehicle_motor_dir_set(VehicleParameter *vehicle, VehicleDirection dict);
 void vehicle_motor_dir_fbk(VehicleParameter *vehicle);
 void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode);
-void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
-void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
-void vehicle_set_rotate(
+void vehicle_set_var_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
+void vehicle_set_var_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd);
+void vehicle_set_var_rotate(
     VehicleParameter *vehicle,
     VehicleDirection dict,
     Percentage spd,

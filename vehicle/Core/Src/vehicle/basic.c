@@ -120,19 +120,19 @@ void vehicle_set_mode(VehicleParameter *vehicle, VehicleMode mode)
     vehicle->mode = mode;
 }
 
-void vehicle_set_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
+void vehicle_set_var_free(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
 {
     vehicle->free.direction = dict;
     vehicle->free.speed = spd;
 }
 
-void vehicle_set_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
+void vehicle_set_var_track(VehicleParameter *vehicle, VehicleDirection dict, Percentage spd)
 {
     vehicle->track.direction = dict;
     vehicle->track.speed = spd;
 }
 
-void vehicle_set_rotate(
+void vehicle_set_var_rotate(
     VehicleParameter *vehicle,
     VehicleDirection dict,
     Percentage spd,
