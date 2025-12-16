@@ -63,7 +63,7 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
 static Result motor_pkt(FdcanPkt *pkt, MotorParameter *motor)
 {
     motor->alive_tick = HAL_GetTick();
-    if (pkt->len < 2 + sizeof(float32_t)) return RESULT_ERROR(RES_ERR_NOT_FOUND);
+    if (!fdcan_pkt_check_len(pkt, 2 + sizeof(float32_t))) return RESULT_ERROR(RES_ERR_NOT_FOUND);
     motor->mode_fbk = pkt->data[0];
     motor->reverse_fbk = pkt->data[1];
     uint8_t u8s[sizeof(float32_t)];
@@ -74,23 +74,23 @@ static Result motor_pkt(FdcanPkt *pkt, MotorParameter *motor)
 
 static void hall_read(uint8_t code, VehicleHall *hall)
 {
+    hall->alive_tick = HAL_GetTick();
     if (
         code != ADC_HALL_STATE_NONE &&
         code != ADC_HALL_STATE_ON_MAG
     ) code = ADC_HALL_STATE_UNK;
     hall->state = code;
-    hall->alive_tick = HAL_GetTick();
 }
 
 static void uss_read(uint8_t code, VehicleUSS *uss)
 {
+    uss->alive_tick = HAL_GetTick();
     if (
         code != USS_STATUS_SAVE &&
         code != USS_STATUS_WARNING &&
         code != USS_STATUS_DANGER
     ) code = USS_STATUS_UNK;
     uss->state = code;
-    uss->alive_tick = HAL_GetTick();
 }
 
 Result fdcan_pkt_ist_read(FdcanPkt *pkt)
@@ -117,6 +117,7 @@ Result fdcan_pkt_ist_read(FdcanPkt *pkt)
         }
         case CAN_ID_RFID_FBK:
         {
+            vehicle_h.rfid.alive_tick = HAL_GetTick();
             if (!fdcan_pkt_check_len(pkt, 1 + sizeof(uint32_t))) break;
             if (pkt->data[0] != 0) vehicle_h.rfid.new = 1;
             uint8_t u8s[sizeof(uint32_t)];

@@ -9,7 +9,7 @@ FncState fdacn_data_store = FNC_DISABLE;
 
 bool fdcan_pkt_check_len(FdcanPkt *pkt, uint8_t len)
 {
-    if (pkt->len <= len) return 0;
+    if (pkt->len < len) return 0;
     return 1;
 }
 
