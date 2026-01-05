@@ -3,6 +3,10 @@
 #include "main/config.h"
 #include "main/fn_state.h"
 
+#ifndef PI
+  #define PI 3.14159265358979f
+#endif
+
 #define VAR_CLAMPF(val, min, max)   \
 ({                                  \
     if (val > max) val = max;       \
@@ -26,7 +30,7 @@ float32_t var_wrap_pi(float32_t x, float32_t value);
 float32_t var_fabsf(float32_t x);
 
 uint16_t var_swap_u16(uint16_t value);
-void var_u16_to_u8_be(uint32_t value, uint8_t *u8);
+void var_u16_to_u8_be(uint16_t value, uint8_t *u8);
 uint16_t var_u8_to_u16_be(const uint8_t *u8);
 void var_i16_to_u8_be(int16_t value, uint8_t* u8);
 int16_t var_u8_to_i16_be(const uint8_t *u8);
