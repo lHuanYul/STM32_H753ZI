@@ -1,16 +1,23 @@
 #include "main/main.h"
+#include "HY_MOD/connectivity/fdcan/callback.h"
+#include "fdcan.h"
 
-// #define DEFALT_TASK_DELAY_MS 50
-// uint32_t defalt_running;
-// void StartDefaultTask(void *argument)
-// {
-//     const uint32_t osPeriod = pdMS_TO_TICKS(DEFALT_TASK_DELAY_MS);
-//     uint32_t next_wake = osKernelGetTickCount() + osPeriod;
-//     for(;;)
-//     {
-//         defalt_running = HAL_GetTick();
-//         osDelayUntil(next_wake);
-//         next_wake += osPeriod;
-//     }
-//     osThreadExit();
-// }
+void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
+{
+    fdcan_error_status_cb(hfdcan, ErrorStatusITs);
+}
+
+void HAL_FDCAN_TxEventFifoCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t TxEventFifoITs)
+{
+    fdcan_tx_fifo_cb(hfdcan, TxEventFifoITs);
+}
+
+void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
+{
+    fdcan_rx_fifo0_cb(hfdcan, RxFifo0ITs);
+}
+
+void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
+{
+    fdcan_rx_fifo1_cb(hfdcan, RxFifo1ITs);
+}

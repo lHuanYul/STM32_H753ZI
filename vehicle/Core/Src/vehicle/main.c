@@ -1,8 +1,8 @@
 #include "vehicle/main.h"
 #include "vehicle/track.h"
 #include "vehicle/search.h"
-#include "main/fn_state.h"
-#include "connectivity/fdcan/pkt_write.h"
+#include "HY_MOD/main/fn_state.h"
+#include "HY_MOD/connectivity/fdcan/pkt_write.h"
 
 // motor mode & spd update
 static void mode_update(VehicleParameter *vehicle)

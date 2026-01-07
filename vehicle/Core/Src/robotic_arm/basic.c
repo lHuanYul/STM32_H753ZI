@@ -1,5 +1,5 @@
 #include "robotic_arm/basic.h"
-#include "main/variable_cal.h"
+#include "HY_MOD/main/variable_cal.h"
 
 ArmMotorParameter arm_bottom = {
     .const_h = {

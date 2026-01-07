@@ -30,7 +30,7 @@
 #define STM32_H753ZI
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 #define MCU_VEHICLE_MAIN
-#include "connectivity/cmds.h"
+#include "HY_MOD/connectivity/cmds.h"
 #define FDCAN_FIFO0_FILTER0_ID_MIN  0x108
 #define FDCAN_FIFO0_FILTER0_ID_MAX  0x10F
 #define FDCAN_FIFO1_FILTER0_ID_MIN  0x100
@@ -41,6 +41,7 @@
 #define TIM4_PSC        1700
 #define TIM4_ARR        2000
 
+#define HY_MOD_STM32_FDCAN
 #define FDCAN_STD_FILTER_NBR    2
 #define FDCAN_RX0_NBR           16
 #define FDCAN_RX1_NBR           16
@@ -59,6 +60,7 @@
 #define FDCAN_TRSM_BUF_CAP      10
 #define FDCAN_RECV_BUF_CAP      10
 
+#define HY_MOD_STM32_SDMMC
 #define SDMMC_CLK_DIV           8
 
 // ! Also CHECK ALL basic.c file

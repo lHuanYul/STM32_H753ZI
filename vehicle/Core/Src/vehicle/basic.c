@@ -1,6 +1,6 @@
 #include "vehicle/basic.h"
-#include "main/variable_cal.h"
-#include "connectivity/fdcan/pkt_write.h"
+#include "HY_MOD/main/variable_cal.h"
+#include "HY_MOD/connectivity/fdcan/pkt_write.h"
 
 VehicleParameter vehicle_h = {
     .free = {
