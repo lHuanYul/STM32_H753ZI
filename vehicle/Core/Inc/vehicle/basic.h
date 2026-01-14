@@ -106,6 +106,20 @@ typedef struct VehicleRfid
     uint32_t    alive_tick;
 } VehicleRfid;
 
+typedef struct MotorHistoryData
+{
+    Percentage spd_ref;
+    float32_t spd_fbk;
+} MotorHistoryData;
+
+typedef struct MotorHistoryArray
+{
+    MotorHistoryData data[MOTOR_HISTORY_LEN];
+    uint16_t head;
+    bool is_full;
+    uint32_t cnt;
+} MotorHistoryArray;
+
 typedef struct MotorParameter
 {
     const uint16_t  fdcan_id;
@@ -117,6 +131,7 @@ typedef struct MotorParameter
     uint8_t         mode_fbk;
     bool            reverse_fbk;
     float32_t       value_fbk;
+    MotorHistoryArray history;
 } MotorParameter;
 
 typedef struct VehicleParameter
@@ -156,3 +171,4 @@ void vehicle_set_var_rotate(
     Percentage spd,
     uint8_t need_count
 );
+void motor_history_write(MotorParameter *motor);

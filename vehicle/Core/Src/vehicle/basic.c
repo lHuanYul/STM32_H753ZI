@@ -142,3 +142,20 @@ void vehicle_set_var_rotate(
     vehicle->rotate.speed = spd;
     vehicle->rotate.need_count = need_count;
 }
+
+void motor_history_write(MotorParameter *motor)
+{
+    uint16_t idx = motor->history.head;
+    motor->history.data[idx].spd_ref = (!motor->reverse_ref) ?
+        motor->value_ref : -motor->value_ref;
+    motor->history.data[idx].spd_fbk = (!motor->reverse_fbk) ?
+        motor->value_fbk  : -motor->value_fbk;
+    motor->history.cnt++;
+    idx++;
+    if (idx >= MOTOR_HISTORY_LEN)
+    {
+        idx = 0;
+        motor->history.is_full = 1;
+    }
+    motor->history.head = idx;
+}

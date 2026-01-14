@@ -36,6 +36,8 @@
 #define FDCAN_FIFO1_FILTER0_ID_MIN  0x100
 #define FDCAN_FIFO1_FILTER0_ID_MAX  0x107
 
+#define MOTOR_HISTORY_LEN 600
+
 #define TIM3_PSC        1700
 #define TIM3_ARR        2000
 #define TIM4_PSC        1700
