@@ -4,6 +4,7 @@
 #include "HY_MOD/connectivity/fdcan/callback.h"
 #include "HY_MOD/connectivity/fdcan/main.h"
 #include "HY_MOD/connectivity/fdcan/pkt_write.h"
+#include "HY_MOD/connectivity/spi_json/callback.h"
 #include "fdcan.h"
 
 void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
@@ -24,6 +25,16 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 {
     fdcan_rx_fifo1_cb(&fdcan_h, hfdcan, RxFifo1ITs);
+}
+
+void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+    spi_json_rx_cb(&spi1_h, hspi, &json_pkt_pool, &spi_recv_buf);
+}
+
+void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+    spi_json_tx_cb(&spi1_h, hspi, &json_pkt_pool, &spi_trsm_buf);
 }
 
 static Result auto_pkt_proc(void)

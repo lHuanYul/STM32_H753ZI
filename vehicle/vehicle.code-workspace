@@ -7,6 +7,10 @@
 		{
 			"name": "HY_MOD",
 			"path": "../../HY_MCU_MOD/STM32"
+		},
+		{
+			"name": "ThirdParty",
+			"path": "../../HY_MCU_MOD/ThirdParty"
 		}
 	],
 	"settings": {
@@ -15,6 +19,7 @@
 		"C_Cpp.default.includePath": [
 			"${env:CubeIDETools}/arm-none-eabi/include",
 			"${workspaceFolder:HY_MOD}/Inc/**",
+			"${workspaceFolder:ThirdParty}/**",
 			
 			"${workspaceFolder:main}/Core/Inc/**",
 			"${workspaceFolder:main}/Drivers/**",

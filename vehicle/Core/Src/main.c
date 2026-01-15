@@ -23,6 +23,7 @@
 #include "fatfs.h"
 #include "fdcan.h"
 #include "mdma.h"
+#include "memorymap.h"
 #include "sdmmc.h"
 #include "spi.h"
 #include "tim.h"

@@ -27,6 +27,7 @@
 #include "stm32h7xx_hal.h"
 
 #define STM32_DEVICE
+#define STM32_H7
 #define STM32_H753ZI
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 #define MCU_VEHICLE_MAIN
@@ -64,6 +65,13 @@
 
 #define HY_MOD_STM32_SDMMC
 #define SDMMC_CLK_DIV           8
+
+#define HY_MOD_STM32_SPI
+#define HY_MOD_STM32_JSON
+#define JSON_PKT_LEN            1024
+#define JSON_PKT_POOL_CAP       10
+#define JSON_TRSM_BUF_CAP       4
+#define JSON_RECV_BUF_CAP       4
 
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------
