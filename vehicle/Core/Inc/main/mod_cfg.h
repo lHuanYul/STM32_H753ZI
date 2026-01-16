@@ -1,9 +1,9 @@
 #pragma once
 
 #include "main/config.h"
-#include "HY_MOD/connectivity/fdcan/basic.h"
+#include "HY_MOD/fdcan/basic.h"
 #include "HY_MOD/packet/fdcan.h"
-#include "HY_MOD/connectivity/spi_json/basic.h"
+#include "HY_MOD/spi_json/basic.h"
 #include "HY_MOD/packet/json.h"
 
 extern FdcanPktPool fdcan_pkt_pool;

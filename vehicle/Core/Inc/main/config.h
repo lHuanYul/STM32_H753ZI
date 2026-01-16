@@ -27,11 +27,10 @@
 #include "stm32h7xx_hal.h"
 
 #define STM32_DEVICE
-#define STM32_H7
-#define STM32_H753ZI
+#define STM32H753ZI
 #define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 #define MCU_VEHICLE_MAIN
-#include "HY_MOD/connectivity/cmds.h"
+#include "HY_MOD/cmds.h"
 #define FDCAN_FIFO0_FILTER0_ID_MIN  0x108
 #define FDCAN_FIFO0_FILTER0_ID_MAX  0x10F
 #define FDCAN_FIFO1_FILTER0_ID_MIN  0x100
@@ -56,8 +55,6 @@
 #define FDCAN_FILTER0_ID_MAX    0x011
 #define FDCAN_FILTER1_ID_MIN    0x012
 #define FDCAN_FILTER1_ID_MAX    0x013
-#define FDCAN_TEST_ID           0x001
-#define FDCAN_DATA_ID           0x011
 #define FDCAN_PKT_LEN           8
 #define FDCAN_PKT_POOL_CAP      32
 #define FDCAN_TRSM_BUF_CAP      10

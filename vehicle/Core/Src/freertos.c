@@ -73,7 +73,14 @@ osThreadId_t VehicleTaskHandle;
 const osThreadAttr_t VehicleTask_attributes = {
   .name = "VehicleTask",
   .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal,
+  .priority = (osPriority_t) osPriorityNormal1,
+};
+/* Definitions for Spi1Task */
+osThreadId_t Spi1TaskHandle;
+const osThreadAttr_t Spi1Task_attributes = {
+  .name = "Spi1Task",
+  .stack_size = 512 * 4,
+  .priority = (osPriority_t) osPriorityHigh1,
 };
 
 /* Private function prototypes -----------------------------------------------*/
@@ -85,6 +92,7 @@ void StartDefaultTask(void *argument);
 void StartSDCardTask(void *argument);
 void StartFdCanTask(void *argument);
 void StartVehicleTask(void *argument);
+void StartSpi1Task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -126,6 +134,9 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of VehicleTask */
   VehicleTaskHandle = osThreadNew(StartVehicleTask, NULL, &VehicleTask_attributes);
+
+  /* creation of Spi1Task */
+  Spi1TaskHandle = osThreadNew(StartSpi1Task, NULL, &Spi1Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -207,6 +218,24 @@ __weak void StartVehicleTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartVehicleTask */
+}
+
+/* USER CODE BEGIN Header_StartSpi1Task */
+/**
+* @brief Function implementing the Spi1Task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_StartSpi1Task */
+__weak void StartSpi1Task(void *argument)
+{
+  /* USER CODE BEGIN StartSpi1Task */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END StartSpi1Task */
 }
 
 /* Private application code --------------------------------------------------*/

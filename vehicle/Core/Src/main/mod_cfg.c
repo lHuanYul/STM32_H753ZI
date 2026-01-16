@@ -1,6 +1,6 @@
 #include "main/mod_cfg.h"
 
-#include "HY_MOD/connectivity/fdcan/basic.h"
+#include "HY_MOD/fdcan/basic.h"
 #include "HY_MOD/packet/fdcan.h"
 #include "spi.h"
 
@@ -26,16 +26,16 @@ FdcanParametar fdcan_h = {
     },
 };
 
-__attribute__((aligned(32))) static uint8_t rx_buf[JSON_PKT_LEN + 32];
-__attribute__((aligned(32))) static uint8_t tx_buf[JSON_PKT_LEN + 32];
+SPI_DMA_BUFFER_ATTR static uint8_t rx_buf[ALIGN_32(JSON_PKT_LEN)];
+SPI_DMA_BUFFER_ATTR static uint8_t tx_buf[ALIGN_32(JSON_PKT_LEN)];
 
 SpiParametar spi1_h = {
     .const_h = {
         .hspix = &hspi1,
+        .SCK  = {GPIOA, GPIO_PIN_5},
         .MISO = {GPIOA, GPIO_PIN_6},
         .MOSI = {GPIOB, GPIO_PIN_5},
-        .SCK = {GPIOA, GPIO_PIN_5},
-        .NSS = {GPIOD, GPIO_PIN_9},
+        .NSS  = {GPIOD, GPIO_PIN_14},
     },
     .rx_handle_attr = {
         .name = "spiRxSem"

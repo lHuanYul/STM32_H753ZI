@@ -1,7 +1,7 @@
 #include "map_new/base.h"
 #include "map_new/base.h"
-#include "HY_MOD/connectivity/fdcan/main.h"
-#include "HY_MOD/connectivity/fdcan/pkt_write.h"
+#include "HY_MOD/fdcan/main.h"
+#include "HY_MOD/fdcan/pkt_write.h"
 
 static VehicleParameter *vehicle = &vehicle_h;
 

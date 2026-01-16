@@ -6,11 +6,9 @@
 #include "map_new/work_space.h"
 #include "map_new/window.h"
 
-static uint32_t tick_time = 0;
-static uint32_t now;
+static uint32_t defalt_running = 0;
 static bool map_toggle = false;
 uint32_t text_id[7] = {0};
-size_t defalt_running = 0;
 void StartDefaultTask(void *argument)
 {
     // osThreadExit();
@@ -36,8 +34,7 @@ void StartDefaultTask(void *argument)
 
     for(;;)
     {
-        tick_time++;
-        now = HAL_GetTick();
+        defalt_running = HAL_GetTick();
 
         // map toggle
         if (vehicle_h.rfid.new && !map_toggle)

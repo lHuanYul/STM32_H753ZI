@@ -1,5 +1,5 @@
 #include "vehicle/track.h"
-#include "HY_MOD/connectivity/cmds.h"
+#include "HY_MOD/cmds.h"
 
 /**
  * @brief 循跡模式
