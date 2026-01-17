@@ -1,9 +1,8 @@
 #include "main/main.h"
-#include "main/mod_cfg.h"
 #include "vehicle/basic.h"
+
+#include "main/fdcan.h"
 #include "HY_MOD/fdcan/callback.h"
-#include "HY_MOD/spi_json/callback.h"
-#include "fdcan.h"
 
 void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
 {
@@ -24,6 +23,9 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 {
     fdcan_rx_fifo1_cb(&fdcan_h, hfdcan, RxFifo1ITs);
 }
+
+#include "main/spi_json.h"
+#include "HY_MOD/spi_json/callback.h"
 
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {

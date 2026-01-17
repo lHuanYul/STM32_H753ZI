@@ -63,7 +63,7 @@
 #define HY_MOD_STM32_SDMMC
 #define SDMMC_CLK_DIV           8
 
-#define HY_MOD_STM32_SPI
+#define HY_MOD_STM32_SPI_JSON
 #define HY_MOD_STM32_JSON
 #define JSON_PKT_LEN            1024
 #define JSON_PKT_POOL_CAP       10
