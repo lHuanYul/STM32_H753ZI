@@ -38,9 +38,11 @@
 
 #define MOTOR_HISTORY_LEN 600
 
-#define TIM3_PSC        1700
+#define TIM2_PSC        63
+#define TIM2_ARR        UINT32_MAX
+#define TIM3_PSC        639
 #define TIM3_ARR        2000
-#define TIM4_PSC        1700
+#define TIM4_PSC        639
 #define TIM4_ARR        2000
 
 #define HY_MOD_STM32_FDCAN
@@ -69,6 +71,8 @@
 #define JSON_PKT_POOL_CAP       10
 #define JSON_TRSM_BUF_CAP       4
 #define JSON_RECV_BUF_CAP       4
+
+#define HY_MOD_STM32_DHT11
 
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------

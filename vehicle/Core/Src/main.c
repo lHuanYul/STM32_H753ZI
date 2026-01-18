@@ -34,7 +34,8 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "main/main.h"
+#include "HY_MOD/dht11/callback.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -114,8 +115,9 @@ int main(void)
   MX_SPI1_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  INIT_OWN();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -259,7 +261,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  dht11_tim_PE_cb(&dht11_h, htim);
   /* USER CODE END Callback 1 */
 }
 

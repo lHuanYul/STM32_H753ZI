@@ -1,8 +1,15 @@
 #include "main/main.h"
 #include "vehicle/basic.h"
+#include "HY_MOD/main/tim.h"
+
+void INIT_OWN(void)
+{
+    INIT_OWN_TIM();
+}
 
 #include "main/fdcan.h"
 #include "HY_MOD/fdcan/callback.h"
+#include "HY_MOD/dht11/callback.h"
 
 void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
 {
@@ -35,4 +42,9 @@ void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
     spi_json_tx_cb(&spi1_h, hspi, &json_pkt_pool, &spi_trsm_buf);
+}
+
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+{
+    dht11_tim_IC_cb(&dht11_h, htim);
 }
