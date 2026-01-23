@@ -72,7 +72,9 @@
 #define JSON_TRSM_BUF_CAP       4
 #define JSON_RECV_BUF_CAP       4
 
+#define HY_MOD_STM32_VEHICLE
 #define HY_MOD_STM32_DHT11
+#define HY_MOD_STM32_ROB_ARM
 
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------

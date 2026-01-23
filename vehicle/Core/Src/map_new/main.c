@@ -1,4 +1,4 @@
-#include "vehicle/basic.h"
+#include "HY_MOD/vehicle/basic.h"
 #include "main/config.h"
 #include "map_new/base.h"
 #include "map_new/init.h"
