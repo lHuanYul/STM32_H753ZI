@@ -32,19 +32,38 @@ void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 }
 
 #include "main/spi_json.h"
-#include "HY_MOD/spi_json/callback.h"
+#include "HY_MOD/spi/callback.h"
+
+void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
+{
+    spi_tx_rx_cb(&spi1_h.spi_p, hspi);
+}
 
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-    spi_json_rx_cb(&spi1_h, hspi, &json_pkt_pool, &spi_recv_buf);
+    spi_rx_cb(&spi1_h.spi_p, hspi);
 }
 
 void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
 {
-    spi_json_tx_cb(&spi1_h, hspi, &json_pkt_pool, &spi_trsm_buf);
+    spi_tx_cb(&spi1_h.spi_p, hspi);
 }
 
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
     dht11_tim_IC_cb(&dht11_h, htim);
 }
+
+// #define DEFALT_TASK_DELAY_MS 1000
+// uint32_t default_running;
+// void StartDefaultTask(void *argument)
+// {
+//     const uint32_t osPeriod = pdMS_TO_TICKS(DEFALT_TASK_DELAY_MS);
+//     uint32_t next_wake = osKernelGetTickCount() + osPeriod;
+//     for (;;)
+//     {
+//         default_running = HAL_GetTick();
+//         osDelayUntil(next_wake);
+//         next_wake += osPeriod;
+//     }
+// }

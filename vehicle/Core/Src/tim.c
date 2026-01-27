@@ -22,6 +22,7 @@
 
 /* USER CODE BEGIN 0 */
 #include "main/config.h"
+uint8_t hypa0 = 0;
 /* USER CODE END 0 */
 
 TIM_HandleTypeDef htim2;
@@ -203,7 +204,7 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* tim_icHandle)
     HAL_NVIC_SetPriority(TIM2_IRQn, 5, 0);
     HAL_NVIC_EnableIRQ(TIM2_IRQn);
   /* USER CODE BEGIN TIM2_MspInit 1 */
-
+    hypa0++;
   /* USER CODE END TIM2_MspInit 1 */
   }
 }

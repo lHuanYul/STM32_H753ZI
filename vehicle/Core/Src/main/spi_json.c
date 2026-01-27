@@ -1,25 +1,25 @@
 #include "main/spi_json.h"
 #include "spi.h"
 
-SPI_DMA_BUFFER_ATTR static uint8_t rx_buf[ALIGN_32(JSON_PKT_LEN)];
-SPI_DMA_BUFFER_ATTR static uint8_t tx_buf[ALIGN_32(JSON_PKT_LEN)];
-
-SpiParametar spi1_h = {
-    .const_h = {
-        .hspix = &hspi1,
-        .SCK  = {GPIOA, GPIO_PIN_5},
-        .MISO = {GPIOA, GPIO_PIN_6},
-        .MOSI = {GPIOB, GPIO_PIN_5},
-        .NSS  = {GPIOD, GPIO_PIN_14},
+SpiJsonParametar spi1_h = {
+    .spi_p = {
+        .const_h = {
+            .hspix = &hspi1,
+            .SCK  = {GPIOA, GPIO_PIN_5},
+            .MISO = {GPIOA, GPIO_PIN_6},
+            .MOSI = {GPIOB, GPIO_PIN_5},
+            .NSS  = {GPIOD, GPIO_PIN_14},
+        },
+        .txrx.attr = {
+            .name = "spiTxRxSem"
+        },
+        .rx.attr = {
+            .name = "spiRxSem"
+        },
+        .tx.attr = {
+            .name = "spiTxSem"
+        },
     },
-    .rx_handle_attr = {
-        .name = "spiRxSem"
-    },
-    .rx_buf = rx_buf,
-    .tx_handle_attr = {
-        .name = "spiTxSem"
-    },
-    .tx_buf = tx_buf,
 };
 
 JsonPktPool json_pkt_pool;
