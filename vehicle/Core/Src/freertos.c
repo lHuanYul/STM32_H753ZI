@@ -82,13 +82,6 @@ const osThreadAttr_t Spi1Task_attributes = {
   .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityHigh1,
 };
-/* Definitions for Dht11Task */
-osThreadId_t Dht11TaskHandle;
-const osThreadAttr_t Dht11Task_attributes = {
-  .name = "Dht11Task",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityAboveNormal,
-};
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -100,7 +93,6 @@ void StartSDCardTask(void *argument);
 void StartFdCanTask(void *argument);
 void StartVehicleTask(void *argument);
 void StartSpi1Task(void *argument);
-void StartDht11Task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -145,9 +137,6 @@ void MX_FREERTOS_Init(void) {
 
   /* creation of Spi1Task */
   Spi1TaskHandle = osThreadNew(StartSpi1Task, NULL, &Spi1Task_attributes);
-
-  /* creation of Dht11Task */
-  Dht11TaskHandle = osThreadNew(StartDht11Task, NULL, &Dht11Task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -247,24 +236,6 @@ __weak void StartSpi1Task(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartSpi1Task */
-}
-
-/* USER CODE BEGIN Header_StartDht11Task */
-/**
-* @brief Function implementing the Dht11Task thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartDht11Task */
-__weak void StartDht11Task(void *argument)
-{
-  /* USER CODE BEGIN StartDht11Task */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartDht11Task */
 }
 
 /* Private application code --------------------------------------------------*/

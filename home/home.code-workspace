@@ -1,0 +1,80 @@
+{
+	"folders": [
+		{
+			"name": "main",
+			"path": "."
+		},
+		{
+			"name": "HY_MOD",
+			"path": "../../HY_MCU_MOD/STM32"
+		},
+		{
+			"name": "ThirdParty",
+			"path": "../../HY_MCU_MOD/ThirdParty"
+		}
+	],
+	"settings": {
+		"C_Cpp.default.compilerPath": "${env:CubeIDETools}/bin/arm-none-eabi-gcc.exe",
+		"C_Cpp.default.intelliSenseMode": "gcc-arm",
+		"C_Cpp.default.includePath": [
+			"${env:CubeIDETools}/arm-none-eabi/include",
+			"${workspaceFolder:HY_MOD}/Inc/**",
+			"${workspaceFolder:ThirdParty}/**",
+			
+			"${workspaceFolder:main}/Core/Inc/**",
+			"${workspaceFolder:main}/Drivers/**",
+			"${workspaceFolder:main}/Middlewares/**",
+			"${workspaceFolder:main}/FATFS/**",
+			"${workspaceFolder:main}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
+		],
+		"C_Cpp.default.defines": [
+			"uint32_t=unsigned int",
+			"FDCAN1"
+		],
+		"files.associations": {
+			"main.h": "c",
+			"basic.h": "c",
+			"vec.h": "c",
+			"config.h": "c",
+			"type_traits": "c",
+			"search.h": "c",
+			"adc.h": "c",
+			"fn_state.h": "c",
+			"navigation.h": "c",
+			"write_pkt.h": "c",
+			"pkt_write.h": "c",
+			"stm32g4xx_hal.h": "c",
+			"stm32g431xx.h": "c",
+			"task.h": "c",
+			"freertos.h": "c",
+			"cmsis_os.h": "c",
+			"stdint.h": "c",
+			"cstdint": "c",
+			"stdbool.h": "c",
+			"fdcan.h": "c",
+			"callback.h": "c",
+			"variable_cal.h": "c",
+			"stm32h7xx_hal_def.h": "c",
+			"stm32h7xx.h": "c",
+			"ffconf.h": "c",
+			"fatfs.h": "c",
+			"float.h": "c",
+			"string.h": "c",
+			"arm_math.h": "c",
+			"stm32h7xx_hal.h": "c",
+			"stm32h753xx.h": "c",
+			"stdio.h": "c",
+			"stdlib.h": "c",
+			"stddef.h": "c",
+			"bsp_driver_sd.h": "c",
+			"file.h": "c",
+			"stm32h7xx_hal_conf.h": "c",
+			"stm32h7xx_hal_fdcan.h": "c",
+			"pkt_read.h": "c",
+			"cstdlib": "c",
+			"track.h": "c",
+			"base.h": "c",
+			"variable.h": "c"
+		}
+	}
+}

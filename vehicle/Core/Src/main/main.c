@@ -9,7 +9,7 @@ void INIT_OWN(void)
 
 #include "main/fdcan.h"
 #include "HY_MOD/fdcan/callback.h"
-#include "HY_MOD/dht11/callback.h"
+#include "HY_MOD/dht/callback.h"
 
 void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
 {
@@ -49,9 +49,12 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
     spi_tx_cb(&spi1_h.spi_p, hspi);
 }
 
+#include "main/dht.h"
+#include "HY_MOD/dht/callback.h"
+
 void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-    dht11_tim_IC_cb(&dht11_h, htim);
+    dht_tim_IC_cb(&dht_h, htim);
 }
 
 // #define DEFALT_TASK_DELAY_MS 1000
