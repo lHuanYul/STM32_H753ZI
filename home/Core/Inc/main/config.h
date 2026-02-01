@@ -2,18 +2,7 @@
 #include "main/config.h"
 */
 #pragma once
-
-#include <stdio.h>
-#include <stddef.h>
-#include <stdint.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <float.h>
-#include <string.h>
-
-#define ATTR_X(...) __attribute__((__VA_ARGS__))
-#define ATTR_UNUSED __attribute__((unused))
-#define ATTR_WEAK   __attribute__((weak))
+#include "HY_MOD/main/basic.h"
 
 // ! SYSTEM config, Change CAREFULLY --------------------
 // ! Also CHECK ALL basic.c file
@@ -28,7 +17,6 @@
 
 #define STM32_DEVICE
 #define STM32H753ZI
-#define ITS_CHECK(its, tag)  (((its) & (tag)) != RESET)
 #define MCU_HOME_MAIN
 #include "HY_MOD/cmds.h"
 #define FDCAN_FIFO0_FILTER0_ID_MIN  0x108
@@ -75,5 +63,3 @@
 
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------
-
-typedef uint8_t Percentage;
