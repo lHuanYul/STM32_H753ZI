@@ -57,10 +57,21 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
     dht_tim_IC_cb(&dht_h, htim);
 }
 
+#include "usb_device.h"
+#include "main/rbytes.h"
+#include "HY_MOD/usb_otg/basic.h"
+#include "HY_MOD/packet/raw_bytes.h"
+
 #define DEFALT_TASK_DELAY_MS 1000
 uint32_t default_running;
 void StartDefaultTask(void *argument)
 {
+    rbytes_pkt_pool_init(&rbytes_pkt_pool);
+    RBytesPkt *pkt = RESULT_UNWRAP_HANDLE(rbytes_pkt_pool_alloc(&rbytes_pkt_pool));
+    usb_otg_h.rx_pkt = pkt;
+    pkt = RESULT_UNWRAP_HANDLE(rbytes_pkt_pool_alloc(&rbytes_pkt_pool));
+    usb_otg_h.tx_pkt = pkt;
+    MX_USB_DEVICE_Init();
     const uint32_t osPeriod = pdMS_TO_TICKS(DEFALT_TASK_DELAY_MS);
     uint32_t next_wake = osKernelGetTickCount() + osPeriod;
     for (;;)

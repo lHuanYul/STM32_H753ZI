@@ -25,6 +25,7 @@
 			"${workspaceFolder:main}/Drivers/**",
 			"${workspaceFolder:main}/Middlewares/**",
 			"${workspaceFolder:main}/FATFS/**",
+			"${workspaceFolder:main}/USB_DEVICE/**",
 			"${workspaceFolder:main}/Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F"
 		],
 		"C_Cpp.default.defines": [

@@ -11,7 +11,7 @@ DhtParametar dht_h = {
         .tim_clk = &tim_clk_APB1,
         .gpio = {
             .GPIOx = GPIOA,
-            .GPIO_Pin_x = GPIO_PIN_0,
+            .Pin = GPIO_PIN_0,
         },
     },
 };

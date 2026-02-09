@@ -60,6 +60,7 @@ void TIM2_IRQHandler(void);
 void SPI1_IRQHandler(void);
 void SDMMC1_IRQHandler(void);
 void TIM6_DAC_IRQHandler(void);
+void OTG_FS_IRQHandler(void);
 void MDMA_IRQHandler(void);
 /* USER CODE BEGIN EFP */
 

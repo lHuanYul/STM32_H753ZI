@@ -61,5 +61,10 @@
 #define HY_MOD_STM32_DHT
 #define HY_MOD_STM32_ROB_ARM
 
+#define HY_MOD_STM32_USB_OTG
+#define HY_MOD_STM32_RBYTES
+#define RBYTES_PKT_LEN          1024
+#define RBYTES_PKT_POOL_CAP     10
+
 // ! Also CHECK ALL basic.c file
 // ! SYSTEM config END ------------------------------

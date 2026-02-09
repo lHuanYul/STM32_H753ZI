@@ -51,7 +51,7 @@
 osThreadId_t defaultTaskHandle;
 const osThreadAttr_t defaultTask_attributes = {
   .name = "defaultTask",
-  .stack_size = 128 * 4,
+  .stack_size = 512 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
 /* Definitions for SDCardTask */
@@ -67,13 +67,6 @@ const osThreadAttr_t FdCanTask_attributes = {
   .name = "FdCanTask",
   .stack_size = 256 * 4,
   .priority = (osPriority_t) osPriorityHigh,
-};
-/* Definitions for VehicleTask */
-osThreadId_t VehicleTaskHandle;
-const osThreadAttr_t VehicleTask_attributes = {
-  .name = "VehicleTask",
-  .stack_size = 128 * 4,
-  .priority = (osPriority_t) osPriorityNormal1,
 };
 /* Definitions for Spi1Task */
 osThreadId_t Spi1TaskHandle;
@@ -98,10 +91,10 @@ const osThreadAttr_t Dht11Task_attributes = {
 void StartDefaultTask(void *argument);
 void StartSDCardTask(void *argument);
 void StartFdCanTask(void *argument);
-void StartVehicleTask(void *argument);
 void StartSpi1Task(void *argument);
 void StartDht11Task(void *argument);
 
+extern void MX_USB_DEVICE_Init(void);
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
 /**
@@ -140,9 +133,6 @@ void MX_FREERTOS_Init(void) {
   /* creation of FdCanTask */
   FdCanTaskHandle = osThreadNew(StartFdCanTask, NULL, &FdCanTask_attributes);
 
-  /* creation of VehicleTask */
-  VehicleTaskHandle = osThreadNew(StartVehicleTask, NULL, &VehicleTask_attributes);
-
   /* creation of Spi1Task */
   Spi1TaskHandle = osThreadNew(StartSpi1Task, NULL, &Spi1Task_attributes);
 
@@ -168,6 +158,8 @@ void MX_FREERTOS_Init(void) {
 /* USER CODE END Header_StartDefaultTask */
 __weak void StartDefaultTask(void *argument)
 {
+  /* init code for USB_DEVICE */
+  MX_USB_DEVICE_Init();
   /* USER CODE BEGIN StartDefaultTask */
   /* Infinite loop */
   for(;;)
@@ -211,24 +203,6 @@ __weak void StartFdCanTask(void *argument)
     osDelay(1);
   }
   /* USER CODE END StartFdCanTask */
-}
-
-/* USER CODE BEGIN Header_StartVehicleTask */
-/**
-* @brief Function implementing the VehicleTask thread.
-* @param argument: Not used
-* @retval None
-*/
-/* USER CODE END Header_StartVehicleTask */
-__weak void StartVehicleTask(void *argument)
-{
-  /* USER CODE BEGIN StartVehicleTask */
-  /* Infinite loop */
-  for(;;)
-  {
-    osDelay(1);
-  }
-  /* USER CODE END StartVehicleTask */
 }
 
 /* USER CODE BEGIN Header_StartSpi1Task */
