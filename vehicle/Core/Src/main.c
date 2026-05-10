@@ -35,7 +35,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "main/main.h"
-#include "main/dht.h"
+#include "main/main.h"
 #include "HY_MOD/dht/callback.h"
 /* USER CODE END Includes */
 
@@ -261,7 +261,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-  dht_tim_PE_cb(&dht_h, htim);
+  // dht_tim_PE_cb(&dht_h, htim);
   /* USER CODE END Callback 1 */
 }
 

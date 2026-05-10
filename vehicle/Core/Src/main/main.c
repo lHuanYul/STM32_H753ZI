@@ -7,9 +7,7 @@ void INIT_OWN(void)
     INIT_OWN_TIM();
 }
 
-#include "main/fdcan.h"
 #include "HY_MOD/fdcan/callback.h"
-#include "HY_MOD/dht/callback.h"
 
 void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorStatusITs)
 {
@@ -18,7 +16,7 @@ void HAL_FDCAN_ErrorStatusCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t ErrorSt
 
 void HAL_FDCAN_TxEventFifoCallback(FDCAN_HandleTypeDef *hfdcan, uint32_t TxEventFifoITs)
 {
-    fdcan_tx_fifo_cb(&fdcan_h, hfdcan, TxEventFifoITs);
+    fdcan_tx_fifo_cb(&fdcan_h, hfdcan, TxEventFifoITs, &fdcan_pkt_pool, &fdcan_trsm_pkt_buf);
 }
 
 void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
@@ -28,10 +26,9 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo0ITs)
 
 void HAL_FDCAN_RxFifo1Callback(FDCAN_HandleTypeDef *hfdcan, uint32_t RxFifo1ITs)
 {
-    fdcan_rx_fifo1_cb(&fdcan_h, hfdcan, RxFifo1ITs);
+    fdcan_rx_fifo1_cb(&fdcan_h, hfdcan, RxFifo1ITs, &fdcan_pkt_pool, &fdcan_recv_pkt_buf);
 }
 
-#include "main/spi_json.h"
 #include "HY_MOD/spi/callback.h"
 
 void HAL_SPI_TxRxCpltCallback(SPI_HandleTypeDef *hspi)
@@ -49,13 +46,12 @@ void HAL_SPI_TxCpltCallback(SPI_HandleTypeDef *hspi)
     spi_tx_cb(&spi1_h.spi_p, hspi);
 }
 
-#include "main/dht.h"
-#include "HY_MOD/dht/callback.h"
+// #include "HY_MOD/dht/callback.h"
 
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
-{
-    dht_tim_IC_cb(&dht_h, htim);
-}
+// void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
+// {
+//     dht_tim_IC_cb(&dht_h, htim);
+// }
 
 // #define DEFALT_TASK_DELAY_MS 1000
 // uint32_t default_running;

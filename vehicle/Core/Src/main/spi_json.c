@@ -1,4 +1,4 @@
-#include "main/spi_json.h"
+#include "main/main.h"
 #include "spi.h"
 
 SpiJsonParametar spi1_h = {
